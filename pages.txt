@@ -1,0 +1,10 @@
+Login
+
+End User
+api request
+verify if attribute rule valid
+
+Admin
+read attribute
+set attribute rule (form)
+
