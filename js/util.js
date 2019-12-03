@@ -27,6 +27,7 @@ function renderAttributeTable() {
     cols += `<td><button type="button" class="btn btn-primary" onclick="openTransferAttribute('${v.contract}', '${v.name}', '${v.symbol}')">Transfer</button></td>`;
 
     newRow.append(cols);
+
     $("table.attribute-list").append(newRow);
   });
 }
@@ -57,7 +58,8 @@ async function publishFungibleVoucher() {
       ethereumKey
     }
   }`;
-  const readyToSign = await fetch(APIENDPOINT, {
+
+  let result = await fetch(APIENDPOINT, {
     mode: "cors",
     method: "POST",
     body: JSON.stringify({ query }),
@@ -73,8 +75,29 @@ async function publishFungibleVoucher() {
         console.log("error: ready to publish voucher error");
         return false;
       }
-      return json;
+      return json.data.publishFungibleVoucher;
     });
+
+  const adminWallet = await new ethers.Wallet(ADMIN_PRIVATE_KEY);
+
+  result.transaction.gasLimit = result.transaction.gas;
+
+  delete result.transaction.gas;
+
+  const rawTransaction = await adminWallet.sign(result.transaction);
+
+  const txHash = await submitTransaction(rawTransaction, result.submitToken);
+
+  const targetTxLink = `https://explorer.staging.fst.network/tx/${txHash}`;
+
+  $("#afterAttributePublish > div > div > a").attr("href", targetTxLink);
+
+  setTimeout(async function() {
+    await fetchAttributeList();
+    $("#afterAttributePublish").css("display", "");
+    $("table.attribute-list > tbody").empty();
+    renderAttributeTable();
+  }, 4000);
 }
 
 async function fetchAttributeList() {
@@ -83,6 +106,7 @@ async function fetchAttributeList() {
       token {
         contract
         vouchers {
+          totalCount
           edges {
             node {
               contract
@@ -187,8 +211,6 @@ async function transferAttribute() {
 
   const txHash = await submitTransaction(rawTransaction, result.submitToken);
 
-  console.log("done: ", txHash);
-
   const targetTxLink = `https://explorer.staging.fst.network/tx/${txHash}`;
 
   $("#afterTransferResultShow > div > div > a").attr("href", targetTxLink);
@@ -237,13 +259,13 @@ async function submitTransaction(rawTx, submitToken) {
 
 // const rulestry =  [
 //   {
-//     "target": "0xdddd",
+//     "target": "0x01f397efa26a23f143718418fae5f68320476875",
 //     "operator": ">",
 //     "value": "10"
 //   },
 //   {
-//     "target": "0xdddd",
-//     "operator": ">",
+//     "target": "0x6b2e0d8f8b5f8dc31a48710da06af4e92d81e9e3",
+//     "operator": "<",
 //     "value": "10"
 //   },
 //   {
@@ -262,3 +284,42 @@ async function submitTransaction(rawTx, submitToken) {
 //     "value": "10"
 //   }
 // ]
+
+var rulesToSave = {
+  aRules: [
+    {
+      target: "0x01f397efa26a23f143718418fae5f68320476875",
+      operator: ">",
+      value: "5"
+    },
+    {
+      target: "0x6b2e0d8f8b5f8dc31a48710da06af4e92d81e9e3",
+      operator: "<",
+      value: "2"
+    }
+  ],
+  bRules: [
+    {
+      target: "0xb146d4fbd396d1fdbbec03b0bc1487fdf8e5f137",
+      operator: ">",
+      value: "1"
+    },
+    {
+      target: "0x2e001629b82e556798167fe3e8d5c34c58cb2832",
+      operator: "<",
+      value: "2"
+    }
+  ],
+  cRules: [
+    {
+      target: "0x1a379ae0197cc9ccdadadd4f0500bef08a5a0680",
+      operator: ">",
+      value: "1"
+    },
+    {
+      target: "0xde95f682f6cfe019929f779564f06e39627686d5",
+      operator: "<",
+      value: "2"
+    }
+  ]
+};
