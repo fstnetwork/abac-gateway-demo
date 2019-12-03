@@ -23,12 +23,12 @@
   </nav>
 
   <div class="container">
-    <div class="row pt-3">
-      <div class="col-8">
-        <h2>Attribute List</h2>
+    <div class="row align-items-center">
+      <div class="col-5" style="padding-top: .75em; padding-bottom: .75em;">
+        <h6>Attribute List</h6>
       </div>
-      <div class="col-4">
-        <button class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal">
+      <div class="col-7" style="padding-top: .75em; padding-bottom: .75em;">
+        <button class="btn btn-primary float-right" data-toggle="modal" data-target="#addAttributeModal">
           <i class="material-icons">
             add
           </i>
@@ -44,6 +44,7 @@
               <th scope="col">Address</th>
               <th scope="col">Name</th>
               <th scope="col">symbol</th>
+              <th scope="col">totalSupply</th>
               <th scope="col">transfer</th>
             </tr>
           </thead>
@@ -61,7 +62,7 @@
     </div>
   </div>
 
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  <div class="modal fade" id="addAttributeModal" tabindex="-1" role="dialog" aria-labelledby="addAttributeModal"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -89,6 +90,62 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="transferAttribute" tabindex="-2" role="dialog" aria-labelledby="transferAttribute"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="transferAttributeTitle">Transfer Attribute </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="transferValue">value</label>
+            <input type="number" class="form-control" id="transferValue" aria-describedby="emailHelp">
+          </div>
+
+          <div class="form-group">
+            <label for="transferTargetAddress">Target Address</label>
+            <select class="form-control" id="transferTargetAddress">
+              <option value="0x8f46d0ed30ae516102dfe8e658a3a3b6f4f469e6">
+                0x8f46d0ed30ae516102dfe8e658a3a3b6f4f469e6</option>
+              <option value="0x2c0bd00d525e1a8f65ecf8861a1d3991f8e5b1f7">
+                0x2c0bd00d525e1a8f65ecf8861a1d3991f8e5b1f7</option>
+            </select>
+          </div>
+
+          <div id="afterTransferResultShow" style="display: none;">
+            <div class="row pt-3">
+              <div class="col-6">
+                <h5>
+                  Transfer Complete:
+                </h5>
+              </div>
+              <div class="col-6">
+                <a class="btn btn-info btn-sm btn-block" target="_blank">
+                  Watch On Network
+                  <i class="material-icons">
+                    trending_flat
+                  </i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="transferAttribute()">Submit</button>
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->

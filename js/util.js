@@ -1,31 +1,15 @@
 const APIENDPOINT = `https://api.staging.fst.network/api`;
 const USER_ACCESS_TOKEN = window.localStorage.getItem("user_access_token");
 
-let attrubuteListData = [
-  {
-    contract: "0x01f397efa26a23f143718418fae5f68320476875",
-    name: "Attribute 01",
-    symbol: "ATR01",
-    totalSupply: "1000",
-    description: null,
-    standard: "ERC1376",
-    age: "1575153710000"
-  },
-  {
-    contract: "0xde95f682f6cfe019929f779564f06e39627686d5",
-    name: "Attribute 02",
-    symbol: "ATR02",
-    totalSupply: "1000",
-    description: null,
-    standard: "ERC1376",
-    age: "1575153725000"
-  }
-];
+const ADMIN_PRIVATE_KEY =
+  "0xc9725e8b55267957a958cb63fc3432cb21032c16ddc23809ab451d4218fcb634";
+
+let attrubuteListData = [];
 
 $(async function() {
   console.log("ready!");
   await fetchAttributeList();
-  renderAttributeTable()
+  renderAttributeTable();
 });
 
 function renderAttributeTable() {
@@ -38,9 +22,9 @@ function renderAttributeTable() {
     cols += `<td>${v.contract}</td>`;
     cols += `<td>${v.name}</td>`;
     cols += `<td>${v.symbol}</td>`;
+    cols += `<td>${v.totalSupply}</td>`;
 
-    cols +=
-      '<td><button type="button" class="btn btn-primary">Transfer</button></td>';
+    cols += `<td><button type="button" class="btn btn-primary" onclick="openTransferAttribute('${v.contract}', '${v.name}', '${v.symbol}')">Transfer</button></td>`;
 
     newRow.append(cols);
     $("table.attribute-list").append(newRow);
@@ -139,6 +123,117 @@ async function fetchAttributeList() {
       });
     });
 }
+
+let currentTransferTarget = "";
+
+function openTransferAttribute(
+  targetAttributeAddress,
+  targetName,
+  targetSymbol
+) {
+  console.log(
+    "trigger target: ",
+    targetAttributeAddress,
+    targetName,
+    targetSymbol
+  );
+  currentTransferTarget = targetAttributeAddress;
+
+  $("#transferAttributeTitle").text(
+    `Transfer Attribute ${targetName} (${targetSymbol})`
+  );
+  $("#transferAttribute").modal("show");
+}
+
+async function transferAttribute() {
+  let transferValue = $("#transferValue").val();
+  let transferTargetAddress = $("#transferTargetAddress").val();
+
+  const query = `
+  mutation fungibleTransfer {
+    erc20Transfer(input: { contract: "${currentTransferTarget}", to: "${transferTargetAddress}", value: "${transferValue}" }) {
+      transaction
+      ethereumKey
+      submitToken
+    }
+  }`;
+
+  let result = await fetch(APIENDPOINT, {
+    mode: "cors",
+    method: "POST",
+    body: JSON.stringify({ query }),
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+      authorization: `Bearer ${USER_ACCESS_TOKEN}`
+    }
+  })
+    .then(res => res.json())
+    .then(json => {
+      if (json.error) {
+        console.log("error: ready to publish voucher error");
+        return false;
+      }
+      return json.data.erc20Transfer;
+    });
+
+  const adminWallet = await new ethers.Wallet(ADMIN_PRIVATE_KEY);
+
+  result.transaction.gasLimit = result.transaction.gas;
+
+  delete result.transaction.gas;
+
+  const rawTransaction = await adminWallet.sign(result.transaction);
+
+  const txHash = await submitTransaction(rawTransaction, result.submitToken);
+
+  console.log("done: ", txHash);
+
+  const targetTxLink = `https://explorer.staging.fst.network/tx/${txHash}`;
+
+  $("#afterTransferResultShow > div > div > a").attr("href", targetTxLink);
+  $("#afterTransferResultShow").css("display", "");
+}
+
+async function submitTransaction(rawTx, submitToken) {
+  const query = `
+    mutation submitTx {
+      submitTransaction(input: {
+        signedTx: "${rawTx}",
+        submitToken: "${submitToken}"
+      }){
+        transactionHash
+      }
+    }`;
+
+  const txHash = await fetch(APIENDPOINT, {
+    mode: "cors",
+    method: "POST",
+    body: JSON.stringify({ query }),
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+      authorization: `Bearer ${USER_ACCESS_TOKEN}`
+    }
+  })
+    .then(res => res.json())
+    .then(json => {
+      if (json.error) {
+        console.log("error: ready to publish voucher error");
+        return false;
+      }
+
+      return json.data.submitTransaction.transactionHash;
+    });
+
+  return txHash;
+}
+
+// Sample From Bosin
+// async function signMessage(transaction, privateKey) {
+//   let wallet = await new ethers.Wallet(privateKey);
+//   return await wallet.signMessage(message);
+// }
 
 // const rulestry =  [
 //   {
