@@ -35,18 +35,18 @@ window.onload = async function() {
     setTimeout(() => {
       request(ACCESS_TOKEN);
     }, 10);
-    await this.setLoadingFalse("response-submit-border");
-    // setTimeout(() => {
-    //   setLoadingFalse("response-submit-border");
-    // }, 10);
+    await setLoadingFalse("response-submit-border");
   });
   $("#loginRequest").on("click", loginRequest);
   $("#selectResourceUrl").on("change", async function() {
     // const requestUrl = $("selectResourceUrl").text();
-    if (ACCESS_TOKEN) {
+    console.log(`request: ${this.value}`);
+    if (ACCESS_TOKEN && this.value.startsWith("/resource")) {
       const privateKey = PRIVATE_CHEAT[KEYFILE.address];
       const signature = await signMessage(this.value, privateKey);
       $("#resourceUrlInput").val(`${this.value}?ds=${signature}`);
+    } else {
+      $("#resourceUrlInput").val("");
     }
   });
 };
@@ -59,8 +59,9 @@ async function loginRequest() {
 
   if (accessToken) {
     ACCESS_TOKEN = accessToken;
+    $("div.invalid-login").css({ display: "none" });
     $("#exampleModal").modal("toggle");
-
+    $("#userName").text(userId);
     $("#accessTokenPanel").text(accessToken);
 
     const ethereum = await getEthereumInfo(accessToken);
@@ -74,7 +75,11 @@ async function loginRequest() {
     const voucherData = await getVoucherData(accessToken);
     VOUCHER = voucherData;
 
+    setDefault();
+
     return accessToken;
+  } else {
+    $("div.invalid-login").css({ display: "block" });
   }
   return;
 }
@@ -92,7 +97,8 @@ async function login(id, pwd) {
   `;
 
   const response = await apiRequest(signInEndpoint, query);
-  if (response.data.signIn.access_token) {
+  console.log(`login response`, response);
+  if (response.data.signIn && response.data.signIn.access_token) {
     return response.data.signIn.access_token;
   }
   return undefined;
@@ -132,7 +138,7 @@ async function request(accessToken) {
   // const signature = await signMessage(requestUrl, privateKey);
   // $("#signatureArea").text(signature);
   if (accessToken) {
-    const validateResult = await validateUser(requestUrl, VOUCHER);
+    const validateResult = await validateUser(requestUrl);
     if (validateResult) {
       $("#responseArea").text(
         JSON.stringify(
@@ -290,6 +296,14 @@ async function setLoadingFalse(id) {
 async function setVisible(id) {
   $(`#${id}`).removeClass("invisible");
   $(`#${id}`).addClass("visible");
+}
+
+function setDefault() {
+  $("#selectResourceUrl").val("");
+  $("#resourceUrlInput").val("");
+  $("#responseArea").text("");
+  $("#exampleInputId").val("");
+  $("#exampleInputPassword").val("");
 }
 
 async function getPrivateKey(keyfile, passphrase) {
