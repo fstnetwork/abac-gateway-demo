@@ -121,11 +121,11 @@
           style="word-break: break-all; width: 100%"
           readonly
         ></textarea>
-        <div style="color: #77838f">ethereum address:</div>
+        <div style="color: #77838f">data entry:</div>
         <!-- <textarea id="ethereumAddress" style="width: 100%" readonly> </textarea> -->
         <a href="" target="_blank" id="etherAddressAnchor"></a>
         <div style="margin-top: 5px; margin-bottom:5px; color: #77838f">
-          user assets:
+          user attributes:
         </div>
         <div style="overflow: auto; height: 150px;">
           <table class="table" id="voucherBalanceTable">
@@ -157,6 +157,7 @@
                   class="custom-select my-1 mr-sm-2"
                   style="margin: 0 !important"
                   id="selectResourceUrl"
+                  disabled
                 >
                   <option value="" selected>Choose...</option>
                   <option value="/resource/a0000">/resource/a0000</option>
@@ -171,7 +172,7 @@
               readonly
             ></textarea>
           </div>
-          <button id="requestBtn" class="btn btn-primary">
+          <button id="requestBtn" class="btn btn-primary" disabled>
             Submit
           </button>
         </form>

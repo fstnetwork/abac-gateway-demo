@@ -37,7 +37,9 @@ window.onload = async function() {
     }, 10);
     await setLoadingFalse("response-submit-border");
   });
+
   $("#loginRequest").on("click", loginRequest);
+
   $("#selectResourceUrl").on("change", async function() {
     // const requestUrl = $("selectResourceUrl").text();
     console.log(`request: ${this.value}`);
@@ -48,6 +50,7 @@ window.onload = async function() {
     } else {
       $("#resourceUrlInput").val("");
     }
+    $("#responseArea").text("");
   });
 };
 
@@ -61,8 +64,11 @@ async function loginRequest() {
     ACCESS_TOKEN = accessToken;
     $("div.invalid-login").css({ display: "none" });
     $("#exampleModal").modal("toggle");
+
     $("#userName").text(userId);
     $("#accessTokenPanel").text(accessToken);
+    $("#requestBtn").prop("disabled", false);
+    $("#selectResourceUrl").prop("disabled", false);
 
     const ethereum = await getEthereumInfo(accessToken);
     $("#etherAddressAnchor").text(ethereum.address);
@@ -206,7 +212,11 @@ async function getVoucherData(accessToken) {
         let tr = `
           <tr>
             <td>${node.name}(${node.symbol})</td>
-            <td>${node.contract}</td>
+            <td>
+              <a
+                href='${stagingExplorerUrl}/token/${node.contract}'
+                target='_blank'>${node.contract}</a>
+            </td>
             <th scope="row">${node.value}</th>
           </tr>`;
         $("#voucherTableBody").append(tr);
@@ -219,46 +229,71 @@ async function getVoucherData(accessToken) {
 }
 
 async function validateUser(requestUrl) {
-  const rules = [
-    {
-      target: "0xde95f682f6cfe019929f779564f06e39627686d5",
-      operator: ">",
-      value: "5"
-    },
-    {
-      target: "0x01f397efa26a23f143718418fae5f68320476875",
-      operator: "<",
-      value: "2"
-    }
-  ];
+  // const rules = [
+  //   {
+  //     target: "0xde95f682f6cfe019929f779564f06e39627686d5",
+  //     operator: ">",
+  //     value: "5"
+  //   },
+  //   {
+  //     target: "0x01f397efa26a23f143718418fae5f68320476875",
+  //     operator: "<",
+  //     value: "2"
+  //   }
+  // ];
+  setTempRules();
 
-  for (let rule of rules) {
-    const voucherHold = VOUCHER.find(e => {
-      return rule.target === e.contract;
-    });
-    if (voucherHold) {
-      switch (rule.operator) {
-        case ">":
-          if (Number(voucherHold.value) <= Number(rule.value)) {
-            return false;
-          }
-          break;
-        case "<":
-          if (Number(voucherHold.value) >= Number(rule.value)) {
-            return false;
-          }
-          break;
-        case "=":
-          if (Number(voucherHold.value) != Number(rule.value)) {
-            return false;
-          }
-          break;
-      }
-    } else {
-      return false;
+  const endpointRules = window.localStorage.getItem("endpointRules");
+  let rules;
+  if (endpointRules) {
+    let r = JSON.parse(endpointRules);
+    if (requestUrl in r) {
+      rules = r[requestUrl];
     }
   }
-  return true;
+
+  if (rules) {
+    console.log(`rules`, rules);
+    for (let rule of rules) {
+      const voucherHold = VOUCHER.find(e => {
+        return rule.target === e.contract;
+      });
+      if (voucherHold) {
+        switch (rule.operator) {
+          case ">":
+            if (Number(voucherHold.value) <= Number(rule.value)) {
+              return false;
+            }
+            break;
+          case "<":
+            if (Number(voucherHold.value) >= Number(rule.value)) {
+              return false;
+            }
+            break;
+          case "=":
+            if (Number(voucherHold.value) !== Number(rule.value)) {
+              return false;
+            }
+            break;
+        }
+      } else {
+        switch (rule.operator) {
+          case ">":
+            return false;
+          case "<":
+            break;
+          case "=":
+            if (Number(rule.value) !== 0) {
+              return false;
+            }
+            break;
+        }
+      }
+    }
+    return true;
+  }
+  // no rules, always denied
+  return false;
 }
 
 async function apiRequest(endpoint, query, accessToken) {
@@ -328,4 +363,72 @@ async function recoverSignature(message, flatSig) {
 
   let sig = ethers.utils.splitSignature(flatSig);
   return await contract.verifyString(message, sig.v, sig.r, sig.s);
+}
+
+function setTempRules() {
+  let ENDPOINT_RULE = {
+    "/resource/a0000": [
+      {
+        info: {
+          name: "Attribute 01",
+          symbol: "ATR01"
+        },
+        target: "0xde95f682f6cfe019929f779564f06e39627686d5",
+        operator: ">",
+        value: "5"
+      },
+      {
+        info: {
+          name: "Attribute 01",
+          symbol: "ATR01"
+        },
+        target: "0x01f397efa26a23f143718418fae5f68320476875",
+        operator: "<",
+        value: "2"
+      }
+    ],
+    "/resource/b0000": [
+      {
+        info: {
+          name: "Attribute 01",
+          symbol: "ATR01"
+        },
+        target: "0xb146d4fbd396d1fdbbec03b0bc1487fdf8e5f137",
+        operator: "<",
+        value: "1"
+      },
+      {
+        info: {
+          name: "Attribute 01",
+          symbol: "ATR01"
+        },
+        target: "0x2e001629b82e556798167fe3e8d5c34c58cb2832",
+        operator: "<",
+        value: "1"
+      }
+    ],
+    "/resource/c0000": [
+      {
+        info: {
+          name: "Attribute 01",
+          symbol: "ATR01"
+        },
+        target: "0x1a379ae0197cc9ccdadadd4f0500bef08a5a0680",
+        operator: ">",
+        value: "1"
+      },
+      {
+        info: {
+          name: "Attribute 01",
+          symbol: "ATR01"
+        },
+        target: "0xde95f682f6cfe019929f779564f06e39627686d5",
+        operator: "<",
+        value: "2"
+      }
+    ]
+  };
+  const rules = JSON.stringify(ENDPOINT_RULE);
+  window.localStorage.setItem("endpointRules", rules);
+  // window.localStorage.clear();
 }
