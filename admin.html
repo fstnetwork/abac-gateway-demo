@@ -16,11 +16,20 @@
 </head>
 
 <body>
+  <div style="padding: 10px;"></div>
 
-
-  <nav class="navbar navbar-dark bg-dark shadow">
-    <span class="navbar-brand mb-0 h1">Admin Board</span>
-  </nav>
+  <div class="container">
+    <div class="row">
+      <div class="col-11">
+        <h2 style="color: rgb(128, 122, 122)">ABAC Gateway Demo</h2>
+      </div>
+      <div class="col-1">
+        <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#exampleModal">
+          Login
+        </button>
+      </div>
+    </div>
+  </div>
 
   <div class="container">
     <div class="row align-items-center">
@@ -57,13 +66,8 @@
   </div>
 
   <div class="container">
-
+    <h1>Endpoint Rule</h1>
     <div class="row pt-3">
-
-      <div class="col-12">
-        <h1>Endpoint Rule</h1>
-      </div>
-
       <div class="col-12 pt-3">
         <div class="card">
           <div class="card-body">
@@ -88,158 +92,202 @@
                   are permitted
                 </div>
               </div>
-
               <a href="#" class="card-link float-right">Edit</a>
             </div>
           </div>
         </div>
-
-        <div class="col-12 pt-3">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">GET /resource/b0000</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-              Some quick example text to build on the card title and make up the bulk of the card's content.
-              <a href="#" class="card-link">Card link</a>
-              <a href="#" class="card-link">Another link</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12 pt-3">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">GET /resource/c0000</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-              <a href="#" class="card-link">Card link</a>
-              <a href="#" class="card-link">Another link</a>
-            </div>
-          </div>
-        </div>
-
       </div>
+    </div>
+  </div>
 
+
+  <div class="container">
+    <div class="row pt-3">
+      <div class="col-12">
+        <h3>GET /resource/b00000</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <p>Current Rules</p>
+      </div>
+    </div>
+    <div id='rulepresentb'>
+      <div class="row">
+        <div class="col-12">
+          Clients who hold Attribute(ATR) more than (>) 5
+        </div>
+      </div>
     </div>
 
-    <div class="modal fade" id="addAttributeModal" tabindex="-1" role="dialog" aria-labelledby="addAttributeModal"
-      aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Attribute</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+  </div>
+
+  <div class="container">
+    <div class="row pt-3">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">GET /resource/c0000</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+              card's
+              content.</p>
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
           </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="vouchername">name</label>
-              <input type="text" class="form-control" id="vouchername" aria-describedby="emailHelp">
-            </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- Login Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <form>
             <div class="form-group">
-              <label for="vouchersymbol">symbol</label>
-              <input type="text" class="form-control" id="vouchersymbol">
+              <label for="exampleInputEmail1">Id</label>
+              <input type="email" class="form-control" id="exampleInputId" aria-describedby="emailHelp"
+                placeholder="Enter id" />
             </div>
+            <div class="form-group">
+              <label for="exampleInputPassword">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password" />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" id="loginRequest">
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            <div id="afterAttributePublish" style="display: none;">
-              <div class="row pt-3">
-                <div class="col-6 text-center">
-                  <h5>
-                    Publish Complete:
-                  </h5>
-                </div>
-                <div class="col-6">
-                  <a class="btn btn-info btn-sm btn-block class-center" target="_blank">
-                    Verify On Network
-                    <i class="material-icons">
-                      trending_flat
-                    </i>
-                  </a>
-                </div>
+  <div class="modal fade" id="addAttributeModal" tabindex="-1" role="dialog" aria-labelledby="addAttributeModal"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Attribute</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="vouchername">name</label>
+            <input type="text" class="form-control" id="vouchername" aria-describedby="emailHelp">
+          </div>
+
+          <div class="form-group">
+            <label for="vouchersymbol">symbol</label>
+            <input type="text" class="form-control" id="vouchersymbol">
+          </div>
+
+          <div id="afterAttributePublish" style="display: none;">
+            <div class="row pt-3">
+              <div class="col-6 text-center">
+                <h5>
+                  Publish Complete:
+                </h5>
               </div>
-            </div>
-
-          </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" onclick="publishFungibleVoucher()">Submit</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal fade" id="transferAttribute" tabindex="-2" role="dialog" aria-labelledby="transferAttribute"
-      aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="transferAttributeTitle">Transfer Attribute </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="transferValue">value</label>
-              <input type="number" class="form-control" id="transferValue" aria-describedby="emailHelp">
-            </div>
-
-            <div class="form-group">
-              <label for="transferTargetAddress">Target Address</label>
-              <select class="form-control" id="transferTargetAddress">
-                <option value="0x8f46d0ed30ae516102dfe8e658a3a3b6f4f469e6">
-                  0x8f46d0ed30ae516102dfe8e658a3a3b6f4f469e6</option>
-                <option value="0x2c0bd00d525e1a8f65ecf8861a1d3991f8e5b1f7">
-                  0x2c0bd00d525e1a8f65ecf8861a1d3991f8e5b1f7</option>
-              </select>
-            </div>
-
-            <div id="afterTransferResultShow" style="display: none;">
-              <div class="row pt-3">
-                <div class="col-6 text-center">
-                  <h5>
-                    Transfer Complete:
-                  </h5>
-                </div>
-                <div class="col-6">
-                  <a class="btn btn-info btn-sm btn-block class-center" target="_blank">
-                    Verify On Network
-                    <i class="material-icons">
-                      trending_flat
-                    </i>
-                  </a>
-                </div>
+              <div class="col-6">
+                <a class="btn btn-info btn-sm btn-block class-center" target="_blank">
+                  Verify On Network
+                  <i class="material-icons">
+                    trending_flat
+                  </i>
+                </a>
               </div>
             </div>
           </div>
 
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" onclick="transferAttribute()">Submit</button>
-          </div>
+        </div>
 
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="publishFungibleVoucher()">Submit</button>
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="modal fade" id="transferAttribute" tabindex="-2" role="dialog" aria-labelledby="transferAttribute"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="transferAttributeTitle">Transfer Attribute </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="transferValue">value</label>
+            <input type="number" class="form-control" id="transferValue" aria-describedby="emailHelp">
+          </div>
+
+          <div class="form-group">
+            <label for="transferTargetAddress">Target Address</label>
+            <select class="form-control" id="transferTargetAddress">
+              <option value="0x8f46d0ed30ae516102dfe8e658a3a3b6f4f469e6">
+                0x8f46d0ed30ae516102dfe8e658a3a3b6f4f469e6</option>
+              <option value="0x2c0bd00d525e1a8f65ecf8861a1d3991f8e5b1f7">
+                0x2c0bd00d525e1a8f65ecf8861a1d3991f8e5b1f7</option>
+            </select>
+          </div>
+
+          <div id="afterTransferResultShow" style="display: none;">
+            <div class="row pt-3">
+              <div class="col-6 text-center">
+                <h5>
+                  Transfer Complete:
+                </h5>
+              </div>
+              <div class="col-6">
+                <a class="btn btn-info btn-sm btn-block class-center" target="_blank">
+                  Verify On Network
+                  <i class="material-icons">
+                    trending_flat
+                  </i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="transferAttribute()">Submit</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-      crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-      crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-      crossorigin="anonymous"></script>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
 
-    <script charset="utf-8" src="https://cdn.ethers.io/scripts/ethers-v4.min.js" type="text/javascript">
-    </script>
-    <script src="./js/util.js"></script>
+  <script charset="utf-8" src="https://cdn.ethers.io/scripts/ethers-v4.min.js" type="text/javascript">
+  </script>
+  <script src="./js/util.js"></script>
+  <script src="./js/user.js"></script>
 </body>
 
 </html>
