@@ -10,6 +10,8 @@ $(async function() {
   console.log("ready!");
   await fetchAttributeList();
   renderAttributeTable();
+
+  renderRuleCard();
 });
 
 function renderAttributeTable() {
@@ -285,41 +287,142 @@ async function submitTransaction(rawTx, submitToken) {
 //   }
 // ]
 
-var rulesToSave = {
-  aRules: [
+// window.localStorage.getItem("endpointRules")
+// window.localStorage.setItem("endpointRules")
+
+var ENDPOINT_RULE = {
+  "/resource/a0000": [
     {
+      info: {
+        name: "Attribute 01",
+        symbol: "ATR01"
+      },
       target: "0x01f397efa26a23f143718418fae5f68320476875",
       operator: ">",
       value: "5"
     },
     {
+      info: {
+        name: "Attribute 01",
+        symbol: "ATR01"
+      },
       target: "0x6b2e0d8f8b5f8dc31a48710da06af4e92d81e9e3",
       operator: "<",
       value: "2"
     }
   ],
-  bRules: [
+  "/resource/b0000": [
     {
+      info: {
+        name: "Attribute 01",
+        symbol: "ATR01"
+      },
       target: "0xb146d4fbd396d1fdbbec03b0bc1487fdf8e5f137",
       operator: ">",
       value: "1"
     },
     {
+      info: {
+        name: "Attribute 01",
+        symbol: "ATR01"
+      },
       target: "0x2e001629b82e556798167fe3e8d5c34c58cb2832",
       operator: "<",
       value: "2"
     }
   ],
-  cRules: [
+  "/resource/c0000": [
     {
+      info: {
+        name: "Attribute 01",
+        symbol: "ATR01"
+      },
       target: "0x1a379ae0197cc9ccdadadd4f0500bef08a5a0680",
       operator: ">",
       value: "1"
     },
     {
+      info: {
+        name: "Attribute 01",
+        symbol: "ATR01"
+      },
       target: "0xde95f682f6cfe019929f779564f06e39627686d5",
       operator: "<",
       value: "2"
+    },
+    {
+      info: {
+        name: "Attribute 20",
+        symbol: "ATR01"
+      },
+      target: "0x2e001629b82e556798167fe3e8d5c34c58cb2832",
+      operator: "<",
+      value: "2"
+    },
+    {
+      info: {
+        name: "Attribute 10",
+        symbol: "ATR01"
+      },
+      target: "0x2e001629b82e556798167fe3e8d5c34c58cb2832",
+      operator: "<",
+      value: "10"
     }
   ]
 };
+
+function renderRuleCard() {
+  let targetData = ENDPOINT_RULE["/resource/c0000"];
+
+  console.log(targetData);
+
+  let newRow = $("<div>");
+
+  let firstRow = `
+  <div class="row">
+    <div class="col-12">
+      <h4>
+        Clients who hold
+      </h4>
+    </div>
+  </div>`;
+
+  newRow.append(firstRow);
+
+  targetData.map((v, i) => {
+    if (i == 0) {
+      newRow.append(`
+      <div class="row pt-1">
+      <div class="col">
+        <ul class="shadow-sm list-group list-group-horizontal d-flex">
+          <li class="list-group-item list-group-item-primary text-center"
+            style="width: 12%; padding: 10px 0px 4px;">
+            <span>
+              <i class="material-icons" style="font-size: 32px;">
+                arrow_forward
+              </i>
+            </span>
+          </li>
+          <li class="list-group-item" style="width: 45%;">${v.info.name}( ${v.info.symbol}) </li>
+          <li class="list-group-item" style="width: 28%;">${v.operator}</li>
+          <li class="list-group-item text-right" style="width: 15%">${v.value}</li>
+        </ul>
+      </div>
+    </div>`);
+    } else {
+      newRow.append(`
+      <div class="row pt-1">
+        <div class="col">
+          <ul class="shadow-sm list-group list-group-horizontal d-flex">
+            <li class="list-group-item list-group-item-success text-left" style="width: 12%;">AND</li>
+            <li class="list-group-item" style="width: 45%;">${v.info.name}( ${v.info.symbol})</li>
+            <li class="list-group-item" style="width: 28%;">${v.operator}</li>
+            <li class="list-group-item text-right" style="width: 15%">${v.value}</li>
+          </ul>
+        </div>
+      </div>`);
+    }
+  });
+
+  $("#rulepresentb").append(newRow)
+}

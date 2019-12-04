@@ -16,130 +16,218 @@
 </head>
 
 <body>
-  <div style="padding: 10px;"></div>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-11">
-        <h2 style="color: rgb(128, 122, 122)">ABAC Gateway Demo</h2>
-      </div>
-      <div class="col-1">
-        <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#exampleModal">
-          Login
-        </button>
+  <div class="p-5">
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col-11">
+          <h2 style="color: rgb(128, 122, 122)">ABAC Gateway Demo</h2>
+        </div>
+        <div class="col-1">
+          <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#exampleModal">
+            Login
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-5" style="padding-top: .75em; padding-bottom: .75em;">
-        <h6>Attribute List</h6>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-5" style="padding-top: .75em; padding-bottom: .75em;">
+          <h6>Attribute List</h6>
+        </div>
+        <div class="col-7" style="padding-top: .75em; padding-bottom: .75em;">
+          <button class="btn btn-primary float-right" data-toggle="modal" data-target="#addAttributeModal">
+            <i class="material-icons">
+              add
+            </i>
+            Add Attribute</button>
+        </div>
       </div>
-      <div class="col-7" style="padding-top: .75em; padding-bottom: .75em;">
-        <button class="btn btn-primary float-right" data-toggle="modal" data-target="#addAttributeModal">
-          <i class="material-icons">
-            add
-          </i>
-          Add Attribute</button>
+      <div class="row pt-3">
+        <div class="col-12">
+          <table id="attributeList" class="table table-striped attribute-list">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Address</th>
+                <th scope="col">Name</th>
+                <th scope="col">symbol</th>
+                <th scope="col">totalSupply</th>
+                <th scope="col">transfer</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-    <div class="row pt-3">
-      <div class="col-12">
-        <table id="attributeList" class="table table-striped attribute-list">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Address</th>
-              <th scope="col">Name</th>
-              <th scope="col">symbol</th>
-              <th scope="col">totalSupply</th>
-              <th scope="col">transfer</th>
-            </tr>
-          </thead>
-          <tbody>
 
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-    <h1>Endpoint Rule</h1>
-    <div class="row pt-3">
-      <div class="col-12 pt-3">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">GET /resource/a0000</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Current Rules</h6>
-            <div class="container">
-              <div class="row">
-                <div class="col-12">
-                  Clients who hold
-                  <br>
-                  Atrribute (ATR) more than（ > ） 5
+    <div class="container">
+      <h1>Endpoint Rule</h1>
+      <div class="row pt-3">
+        <div class="col-12 pt-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">GET /resource/a0000</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Current Rules</h6>
+              <div class="container">
+                <div class="row">
+                  <div class="col-12">
+                    Clients who hold
+                    <br>
+                    Atrribute (ATR) more than（ > ） 5
+                  </div>
+                  <div class="col-12" style="color: red;">
+                    AND
+                  </div>
+                  <div class="col-12">
+                    Clients who hold
+                    <br>
+                    Attribute (ATR 01) less than（ &#060; ） 2
+                  </div>
+                  <div>
+                    are permitted
+                  </div>
                 </div>
-                <div class="col-12" style="color: red;">
-                  AND
-                </div>
-                <div class="col-12">
-                  Clients who hold
-                  <br>
-                  Attribute (ATR 01) less than（ &#060; ） 2
-                </div>
-                <div>
-                  are permitted
-                </div>
+                <a href="#" class="card-link float-right">Edit</a>
               </div>
-              <a href="#" class="card-link float-right">Edit</a>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
 
-  <div class="container">
-    <div class="row pt-3">
-      <div class="col-12">
-        <h3>GET /resource/b00000</h3>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <p>Current Rules</p>
-      </div>
-    </div>
-    <div id='rulepresentb'>
+    <div class="container p-3">
       <div class="row">
-        <div class="col-12">
-          Clients who hold Attribute(ATR) more than (>) 5
+        <div class="col-3">
+
+          <div class="row">
+            <div class="col-12">
+              <h5>GET /resource/c00000</h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <p>Current Rules</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <div id='rulepresentb'>
+
+              </div>
+              <!-- rule part end -->
+              <div class="row pt-2">
+                <div class="col text-right">
+                  <a href="#" class="shadow-sm btn btn-info">Edit</a>
+                </div>
+              </div>
+            </div>
+            <!-- card body end -->
+
+          </div>
         </div>
       </div>
     </div>
 
-  </div>
+    <div class="container p-3">
+      <div class="row">
+        <div class="col-3">
 
-  <div class="container">
-    <div class="row pt-3">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">GET /resource/c0000</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-              card's
-              content.</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
+          <div class="row">
+            <div class="col-12">
+              <h5>GET /resource/c00000</h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <p>Current Rules</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <div id='rulepresentc'>
+                <div class="row">
+                  <div class="col-12">
+                    <h4>
+                      Clients who hold
+                    </h4>
+                  </div>
+                </div>
+
+                <div class="row pt-1">
+                  <div class="col">
+                    <ul class="shadow-sm list-group list-group-horizontal d-flex">
+                      <li class="list-group-item list-group-item-primary text-center"
+                        style="width: 12%; padding: 10px 0px 4px;">
+                        <span>
+                          <i class="material-icons" style="font-size: 32px;">
+                            arrow_forward
+                          </i>
+                        </span>
+                      </li>
+                      <li class="list-group-item" style="width: 45%;">Attribute Create 01 (ATRC 01) </li>
+                      <li class="list-group-item" style="width: 28%;">MORE THAN( > )</li>
+                      <li class="list-group-item text-right" style="width: 15%">5</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="row pt-1">
+                  <div class="col">
+                    <ul class="shadow-sm list-group list-group-horizontal d-flex">
+                      <li class="list-group-item list-group-item-success text-left" style="width: 12%;">AND</li>
+                      <li class="list-group-item" style="width: 45%;">Attribute Create 01 (ATRC 01) </li>
+                      <li class="list-group-item" style="width: 28%;">MORE THAN( > )</li>
+                      <li class="list-group-item text-right" style="width: 15%">5</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="row pt-1">
+                  <div class="col">
+                    <ul class="shadow-sm list-group list-group-horizontal d-flex">
+                      <li class="list-group-item list-group-item-success text-left" style="width: 12%;">AND</li>
+                      <li class="list-group-item" style="width: 45%;">Attribute Create 01 (ATRC 01) </li>
+                      <li class="list-group-item" style="width: 28%;">LESS THAN( &#060; )</li>
+                      <li class="list-group-item text-right" style="width: 15%">5</li>
+                    </ul>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row pt-2">
+                <div class="col text-right">
+                  <a href="#" class="shadow-sm btn btn-info">Edit</a>
+                </div>
+              </div>
+            </div>
+            <!-- card body end -->
+
+
           </div>
         </div>
       </div>
     </div>
   </div>
 
+  <footer class="text-muted" style="background-color: #f7f7f7;">
+    <div class="container-fluid p-3 p-md-5">
+      <p>Powered by FSTNETWORK</p>
+    </div>
+  </footer>
+  
   <!-- Login Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
