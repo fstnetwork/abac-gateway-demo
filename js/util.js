@@ -585,6 +585,9 @@ function saveRule() {
       value: values[i].value
     });
   }
+
+  console.log(ENDPOINT_RULE);
+
   ENDPOINT_RULE[currentEditTargetId] = inputArray;
   window.localStorage.setItem("endpointRules", JSON.stringify(ENDPOINT_RULE));
 
