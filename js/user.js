@@ -28,6 +28,13 @@ window.onload = async function() {
   const accessToken = window.localStorage.getItem("USER_ACCESS_TOKEN");
   if (accessToken) {
     console.log("login already:", accessToken);
+    const exp = getTokenExpiry();
+    if (notExpired(exp)) {
+      console.log("token valid");
+    } else {
+      console.log("token invalid, logout");
+      window.localStorage.removeItem("USER_ACCESS_TOKEN");
+    }
   }
 
   $("#requestBtn").click(async e => {
@@ -130,12 +137,20 @@ async function getEpochNow() {
   return Math.floor(dateTime / 1000);
 }
 
-async function getTokenExpiry() {
+function getTokenExpiry() {
   const accessToken = localStorage.getItem("USER_ACCESS_TOKEN");
   const decoded = jwt_decode(accessToken);
   if (decoded) {
     return decoded.exp;
   }
+}
+
+async function notExpired(exp) {
+  const now = getEpochNow();
+  if (exp < now) {
+    return false;
+  }
+  return true;
 }
 
 async function getEthereumInfo(accessToken) {
