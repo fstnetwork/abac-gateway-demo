@@ -69,37 +69,6 @@
 
     <div class="container">
       <h1>Endpoint Rule</h1>
-      <div class="row pt-3">
-        <div class="col-12 pt-3">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">GET /resource/a0000</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Current Rules</h6>
-              <div class="container">
-                <div class="row">
-                  <div class="col-12">
-                    Clients who hold
-                    <br>
-                    Atrribute (ATR) more than（ > ） 5
-                  </div>
-                  <div class="col-12" style="color: red;">
-                    AND
-                  </div>
-                  <div class="col-12">
-                    Clients who hold
-                    <br>
-                    Attribute (ATR 01) less than（ &#060; ） 2
-                  </div>
-                  <div>
-                    are permitted
-                  </div>
-                </div>
-                <a href="#" class="card-link float-right">Edit</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
 
@@ -109,7 +78,7 @@
 
           <div class="row">
             <div class="col-12">
-              <h5>GET /resource/c00000</h5>
+              <h5>GET /resource/a00000</h5>
             </div>
           </div>
           <div class="row">
@@ -121,13 +90,48 @@
         <div class="col">
           <div class="card shadow-sm">
             <div class="card-body">
-              <div id='rulepresentb'>
+              <div id="resourcea0000">
 
               </div>
               <!-- rule part end -->
               <div class="row pt-2">
                 <div class="col text-right">
-                  <a href="#" class="shadow-sm btn btn-info">Edit</a>
+                  <a href="#" class="shadow-sm btn btn-info" onclick="editRule('/resource/a0000')">Edit</a>
+                </div>
+              </div>
+            </div>
+            <!-- card body end -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container p-3">
+      <div class="row">
+        <div class="col-3">
+
+          <div class="row">
+            <div class="col-12">
+              <h5>GET /resource/b00000</h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <p>Current Rules</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <div id="resourceb0000">
+
+              </div>
+              <!-- rule part end -->
+              <div class="row pt-2">
+                <div class="col text-right">
+                  <a href="#" class="shadow-sm btn btn-info" onclick="editRule('/resource/b0000')">Edit</a>
                 </div>
               </div>
             </div>
@@ -156,70 +160,25 @@
         <div class="col">
           <div class="card shadow-sm">
             <div class="card-body">
-              <div id='rulepresentc'>
-                <div class="row">
-                  <div class="col-12">
-                    <h4>
-                      Clients who hold
-                    </h4>
-                  </div>
-                </div>
-
-                <div class="row pt-1">
-                  <div class="col">
-                    <ul class="shadow-sm list-group list-group-horizontal d-flex">
-                      <li class="list-group-item list-group-item-primary text-center"
-                        style="width: 12%; padding: 10px 0px 4px;">
-                        <span>
-                          <i class="material-icons" style="font-size: 32px;">
-                            arrow_forward
-                          </i>
-                        </span>
-                      </li>
-                      <li class="list-group-item" style="width: 45%;">Attribute Create 01 (ATRC 01) </li>
-                      <li class="list-group-item" style="width: 28%;">MORE THAN( > )</li>
-                      <li class="list-group-item text-right" style="width: 15%">5</li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div class="row pt-1">
-                  <div class="col">
-                    <ul class="shadow-sm list-group list-group-horizontal d-flex">
-                      <li class="list-group-item list-group-item-success text-left" style="width: 12%;">AND</li>
-                      <li class="list-group-item" style="width: 45%;">Attribute Create 01 (ATRC 01) </li>
-                      <li class="list-group-item" style="width: 28%;">MORE THAN( > )</li>
-                      <li class="list-group-item text-right" style="width: 15%">5</li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div class="row pt-1">
-                  <div class="col">
-                    <ul class="shadow-sm list-group list-group-horizontal d-flex">
-                      <li class="list-group-item list-group-item-success text-left" style="width: 12%;">AND</li>
-                      <li class="list-group-item" style="width: 45%;">Attribute Create 01 (ATRC 01) </li>
-                      <li class="list-group-item" style="width: 28%;">LESS THAN( &#060; )</li>
-                      <li class="list-group-item text-right" style="width: 15%">5</li>
-                    </ul>
-                  </div>
-                </div>
+              <div id="resourcec0000">
 
               </div>
 
+              <!-- rule part end -->
               <div class="row pt-2">
                 <div class="col text-right">
-                  <a href="#" class="shadow-sm btn btn-info">Edit</a>
+                  <a href="#" class="shadow-sm btn btn-info" onclick="editRule('/resource/c0000')">Edit</a>
                 </div>
               </div>
             </div>
             <!-- card body end -->
 
-
           </div>
         </div>
       </div>
     </div>
+
+
   </div>
 
   <footer class="text-muted" style="background-color: #f7f7f7;">
@@ -227,11 +186,11 @@
       <p>Powered by FSTNETWORK</p>
     </div>
   </footer>
-  
+
   <!-- Login Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-body">
           <form>
@@ -258,9 +217,10 @@
     </div>
   </div>
 
+  <!-- add attrubute modal -->
   <div class="modal fade" id="addAttributeModal" tabindex="-1" role="dialog" aria-labelledby="addAttributeModal"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Add Attribute</h5>
@@ -306,9 +266,10 @@
     </div>
   </div>
 
-  <div class="modal fade" id="transferAttribute" tabindex="-2" role="dialog" aria-labelledby="transferAttribute"
+  <!-- transfer modal -->
+  <div class="modal fade" id="transferAttribute" tabindex="-1" role="dialog" aria-labelledby="transferAttribute"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="transferAttributeTitle">Transfer Attribute </h5>
@@ -355,6 +316,39 @@
           <button type="button" class="btn btn-primary" onclick="transferAttribute()">Submit</button>
         </div>
 
+      </div>
+    </div>
+  </div>
+
+  <!-- edit rule modal -->
+  <div class="modal fade" id="ruleEditModal" tabindex="-1" role="dialog" aria-labelledby="ruleEditModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Endpoint ${} Access Rule</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>
+            Clients who hold
+          </h5>
+          <div class="row">
+            <div class="col">
+              
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button type="button" class="btn btn-primary">
+            Save
+          </button>
+        </div>
       </div>
     </div>
   </div>

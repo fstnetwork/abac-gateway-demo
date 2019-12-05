@@ -11,7 +11,9 @@ $(async function() {
   await fetchAttributeList();
   renderAttributeTable();
 
-  renderRuleCard();
+  renderRuleCard("/resource/a0000");
+  renderRuleCard("/resource/b0000");
+  renderRuleCard("/resource/c0000");
 });
 
 function renderAttributeTable() {
@@ -371,10 +373,8 @@ var ENDPOINT_RULE = {
   ]
 };
 
-function renderRuleCard() {
-  let targetData = ENDPOINT_RULE["/resource/c0000"];
-
-  console.log(targetData);
+function renderRuleCard(targetKey) {
+  let targetData = ENDPOINT_RULE[targetKey];
 
   let newRow = $("<div>");
 
@@ -390,6 +390,16 @@ function renderRuleCard() {
   newRow.append(firstRow);
 
   targetData.map((v, i) => {
+    console.log(v);
+    let targetCompareText = "";
+    if (v.operator == ">") {
+      targetCompareText = "MORE THAN ( > )";
+    } else if (v.operator == "<") {
+      targetCompareText = "LESS THAN ( < )";
+    } else if (v.operator == "=") {
+      targetCompareText = "EQUAL TO ( = )";
+    }
+
     if (i == 0) {
       newRow.append(`
       <div class="row pt-1">
@@ -404,7 +414,7 @@ function renderRuleCard() {
             </span>
           </li>
           <li class="list-group-item" style="width: 45%;">${v.info.name}( ${v.info.symbol}) </li>
-          <li class="list-group-item" style="width: 28%;">${v.operator}</li>
+          <li class="list-group-item" style="width: 28%;">${targetCompareText}</li>
           <li class="list-group-item text-right" style="width: 15%">${v.value}</li>
         </ul>
       </div>
@@ -416,7 +426,7 @@ function renderRuleCard() {
           <ul class="shadow-sm list-group list-group-horizontal d-flex">
             <li class="list-group-item list-group-item-success text-left" style="width: 12%;">AND</li>
             <li class="list-group-item" style="width: 45%;">${v.info.name}( ${v.info.symbol})</li>
-            <li class="list-group-item" style="width: 28%;">${v.operator}</li>
+            <li class="list-group-item" style="width: 28%;">${targetCompareText}</li>
             <li class="list-group-item text-right" style="width: 15%">${v.value}</li>
           </ul>
         </div>
@@ -424,5 +434,19 @@ function renderRuleCard() {
     }
   });
 
-  $("#rulepresentb").append(newRow)
+  newRow.append(`
+  <div class="row pt-3">
+    <div class="col-12">
+      <h4>
+        Can Access Endpoint
+      </h4>
+    </div>
+  </div>`);
+
+  $(`#${targetKey.replace(/[~/]/g, "")}`).append(newRow);
+}
+
+function editRule(targetId) {
+  console.log("targetid", targetId)
+  $('#ruleEditModal').modal('show')
 }
