@@ -40,6 +40,14 @@ window.onload = async function() {
 
   $("#loginRequest").on("click", loginRequest);
 
+  $("#loginClose").on("click", () => {
+    $("#exampleModal").modal("hide");
+    // close with clear login info
+    $("div.invalid-login").css({ display: "none" });
+    $("#exampleInputId").val("");
+    $("#exampleInputPassword").val("");
+  });
+
   $("#selectResourceUrl").on("change", async function() {
     // const requestUrl = $("selectResourceUrl").text();
     console.log(`request: ${this.value}`);
