@@ -25,6 +25,11 @@ var PRIVATE_CHEAT = {
 var stagingExplorerUrl = "https://explorer.staging.fst.network";
 
 window.onload = async function() {
+  const accessToken = window.localStorage.getItem("USER_ACCESS_TOKEN");
+  if (accessToken) {
+    console.log("login already:", accessToken);
+  }
+
   $("#requestBtn").click(async e => {
     e.preventDefault();
     await setLoadingTrue("response-submit-border");
@@ -68,7 +73,10 @@ async function loginRequest() {
   const accessToken = await login(userId, pwd);
 
   if (accessToken) {
-    ACCESS_TOKEN = accessToken;
+    // ACCESS_TOKEN = accessToken;
+    window.localStorage.setItem("USER_ACCESS_TOKEN", accessToken);
+    getTokenExpiry();
+
     $("div.invalid-login").css({ display: "none" });
     $("#exampleModal").modal("toggle");
 
@@ -115,6 +123,19 @@ async function login(id, pwd) {
     return response.data.signIn.access_token;
   }
   return undefined;
+}
+
+async function getEpochNow() {
+  const dateTime = Date.now();
+  return Math.floor(dateTime / 1000);
+}
+
+async function getTokenExpiry() {
+  const accessToken = localStorage.getItem("USER_ACCESS_TOKEN");
+  const decoded = jwt_decode(accessToken);
+  if (decoded) {
+    return decoded.exp;
+  }
 }
 
 async function getEthereumInfo(accessToken) {
