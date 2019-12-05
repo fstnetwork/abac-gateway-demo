@@ -4,7 +4,8 @@ const USER_ACCESS_TOKEN = window.localStorage.getItem("user_access_token");
 const ADMIN_PRIVATE_KEY =
   "0xc9725e8b55267957a958cb63fc3432cb21032c16ddc23809ab451d4218fcb634";
 
-let attrubuteListData = [];
+let attributeListData = [];
+var ENDPOINT_RULE = JSON.parse(window.localStorage.getItem("endpointRules"));
 
 $(async function() {
   console.log("ready!");
@@ -17,7 +18,7 @@ $(async function() {
 });
 
 function renderAttributeTable() {
-  attrubuteListData.map((v, i) => {
+  attributeListData.map((v, i) => {
     let newRow = $("<tr>");
 
     var cols = "";
@@ -35,8 +36,6 @@ function renderAttributeTable() {
     $("table.attribute-list").append(newRow);
   });
 }
-
-function fetchAndResponse() {}
 
 async function publishFungibleVoucher() {
   let name = $("#vouchername").val();
@@ -129,7 +128,7 @@ async function fetchAttributeList() {
     }
   }`;
 
-  attrubuteListData = await fetch(APIENDPOINT, {
+  attributeListData = await fetch(APIENDPOINT, {
     mode: "cors",
     method: "POST",
     body: JSON.stringify({ query }),
@@ -292,87 +291,6 @@ async function submitTransaction(rawTx, submitToken) {
 // window.localStorage.getItem("endpointRules")
 // window.localStorage.setItem("endpointRules")
 
-var ENDPOINT_RULE = {
-  "/resource/a0000": [
-    {
-      info: {
-        name: "Attribute 01",
-        symbol: "ATR01"
-      },
-      target: "0x01f397efa26a23f143718418fae5f68320476875",
-      operator: ">",
-      value: "5"
-    },
-    {
-      info: {
-        name: "Attribute 01",
-        symbol: "ATR01"
-      },
-      target: "0x6b2e0d8f8b5f8dc31a48710da06af4e92d81e9e3",
-      operator: "<",
-      value: "2"
-    }
-  ],
-  "/resource/b0000": [
-    {
-      info: {
-        name: "Attribute 01",
-        symbol: "ATR01"
-      },
-      target: "0xb146d4fbd396d1fdbbec03b0bc1487fdf8e5f137",
-      operator: ">",
-      value: "1"
-    },
-    {
-      info: {
-        name: "Attribute 01",
-        symbol: "ATR01"
-      },
-      target: "0x2e001629b82e556798167fe3e8d5c34c58cb2832",
-      operator: "<",
-      value: "2"
-    }
-  ],
-  "/resource/c0000": [
-    {
-      info: {
-        name: "Attribute 01",
-        symbol: "ATR01"
-      },
-      target: "0x1a379ae0197cc9ccdadadd4f0500bef08a5a0680",
-      operator: ">",
-      value: "1"
-    },
-    {
-      info: {
-        name: "Attribute 01",
-        symbol: "ATR01"
-      },
-      target: "0xde95f682f6cfe019929f779564f06e39627686d5",
-      operator: "<",
-      value: "2"
-    },
-    {
-      info: {
-        name: "Attribute 20",
-        symbol: "ATR01"
-      },
-      target: "0x2e001629b82e556798167fe3e8d5c34c58cb2832",
-      operator: "<",
-      value: "2"
-    },
-    {
-      info: {
-        name: "Attribute 10",
-        symbol: "ATR01"
-      },
-      target: "0x2e001629b82e556798167fe3e8d5c34c58cb2832",
-      operator: "<",
-      value: "10"
-    }
-  ]
-};
-
 function renderRuleCard(targetKey) {
   let targetData = ENDPOINT_RULE[targetKey];
 
@@ -443,10 +361,229 @@ function renderRuleCard(targetKey) {
     </div>
   </div>`);
 
+  $(`#${targetKey.replace(/[~/]/g, "")}`).empty();
   $(`#${targetKey.replace(/[~/]/g, "")}`).append(newRow);
 }
 
+let currentEditTargetId = "";
+
 function editRule(targetId) {
-  console.log("targetid", targetId)
-  $('#ruleEditModal').modal('show')
+  $("#ruleEditModalTitle").empty();
+  $("#ruleEditModalTitle").append(`Edit Endpoint ${targetId} Access Rule`);
+
+  let targetDataArray = ENDPOINT_RULE[targetId];
+
+  currentEditTargetId = targetId;
+
+  $("#ruleEditModalBody").empty();
+  targetDataArray.map((v, i) => {
+    let newRow = $("<div>").addClass("input-group", "mb-3");
+    newRow.append(renderTargetSelect(v.target, i));
+    newRow.append(renderTargetTag(i));
+    newRow.append(renderOperatorSelect(v.operator, i));
+    newRow.append(renderOperatorSelectTag(i));
+    newRow.append(renderValueInput(v.value, i));
+    newRow.append(renderValueTag(v.info.symbol, i));
+
+    let collevel = $(`<div>`)
+      .addClass("col-12")
+      .append(newRow);
+    let lastRowlevel = $("<div>")
+      .addClass("rows")
+      .append(collevel);
+    $("#ruleEditModalBody").append(lastRowlevel);
+  });
+
+  $("#ruleEditModal").modal("show");
 }
+
+function addRule() {
+  let i = $(".rule-target").length;
+
+  let newRow = $("<div>").addClass("input-group", "mb-3");
+  newRow.append(renderTargetSelect("", i));
+  newRow.append(renderTargetTag(i));
+  newRow.append(renderOperatorSelect("", i));
+  newRow.append(renderOperatorSelectTag(i));
+  newRow.append(renderValueInput(0, i));
+  newRow.append(renderValueTag("", i));
+  let collevel = $(`<div>`)
+    .addClass("col-12")
+    .append(newRow);
+  let lastRowlevel = $("<div>")
+    .addClass("rows")
+    .append(collevel);
+  $("#ruleEditModalBody").append(lastRowlevel);
+}
+
+function renderTargetSelect(targetContractAddress, order) {
+  let selectPart = $("<select>")
+    .addClass("custom-select")
+    .addClass("rule-target")
+    .attr("id", `targetRule${order}`);
+
+  attributeListData.map((v, i) => {
+    if (v.contract == targetContractAddress) {
+      selectPart.append(
+        $("<option>")
+          .append(`${v.name} (${v.symbol})`)
+          .attr("value", v.contract)
+          .attr("selected", "selected")
+      );
+    } else {
+      selectPart.append(
+        $("<option>")
+          .attr("value", `${v.contract}`)
+          .append(`${v.name} (${v.symbol})`)
+      );
+    }
+  });
+
+  return selectPart;
+}
+
+function renderTargetTag(order) {
+  return `<div class="input-group-append">
+    <label class="input-group-text" for="targetRule${order}">target</label>
+  </div>`;
+}
+
+function renderOperatorSelect(targetOperator, order) {
+  let wrapper = $("<select>")
+    .addClass("custom-select")
+    .addClass("rule-operator")
+    .attr("id", `targetOperator${order}`);
+
+  if (targetOperator == ">") {
+    wrapper.append(`
+    <option value="0" selected>MORE THAN ( &gt; )</option>
+    <option value="1">LESS THAN ( &lt; )</option>
+    <option value="2">EQUAL TO ( = )</option>`);
+  } else if (targetOperator == "<") {
+    wrapper.append(`
+    <option value="0">MORE THAN ( &gt; )</option>
+    <option value="1" selected>LESS THAN ( &lt; )</option>
+    <option value="2">EQUAL TO ( = )</option>`);
+  } else if (targetOperator == "=") {
+    wrapper.append(`
+    <option value="0">MORE THAN ( &gt; )</option>
+    <option value="1">LESS THAN ( &lt; )</option>
+    <option value="2" selected>EQUAL TO ( = )</option>`);
+  } else {
+    wrapper.append(`
+    <option value="0">MORE THAN ( &gt; )</option>
+    <option value="1">LESS THAN ( &lt; )</option>
+    <option value="2">EQUAL TO ( = )</option>`);
+  }
+
+  // let optionMore =
+  //   targetOperator == ">"
+  //     ? $("<option>")
+  //         .append("MORE THAN ( &gt;)")
+  //         .attr("value", "more")
+  //         .attr("selected")
+  //     : $("<option>")
+  //         .append("MORE THAN ( &gt; )")
+  //         .attr("value", "more");
+
+  // wrapper.append(optionMore);
+
+  // let optionLess =
+  //   targetOperator == "<"
+  //     ? $("<option>")
+  //         .append("LESS THAN ( &lt; )")
+  //         .attr("value", "less")
+  //         .attr("selected")
+  //     : $("<option>")
+  //         .append("LESS THAN ( &lt; )")
+  //         .attr("value", "less");
+
+  // wrapper.append(optionLess);
+
+  // let optionEqual =
+  //   targetOperator == "="
+  //     ? $("<option>")
+  //         .append("EQUAL TO ( = )")
+  //         .attr("value", "equal")
+  //         .attr("selected")
+  //     : $("<option>")
+  //         .append("EQUAL TO ( = )")
+  //         .attr("value", "equal");
+
+  // wrapper.append(optionEqual);
+
+  return wrapper;
+}
+
+function renderOperatorSelectTag(order) {
+  let a = $("<div>")
+    .addClass("input-group-append")
+    .append(
+      $("<div>")
+        .append("operator")
+        .addClass("input-group-text")
+        .attr("for", `targetOperator${order}`)
+    );
+
+  return a;
+}
+
+function renderValueInput(value, order) {
+  return `<input type="text" class="form-control rule-value" id="targetValue${order}" value="${value}"
+  placeholder="amount" style="max-width: 120px;">
+`;
+}
+
+function renderValueTag(symbol, order) {
+  // return `<div class="input-group-append" for="targetValue${order}">
+  //   <span class="input-group-text">${symbol}</span>
+  // </div>`;
+
+  return `
+  <div class="input-group-append">
+    <button class="btn btn-outline-danger" type="button" onclick="removerulebyindex(${order})">Remove</button>
+  </div>`;
+}
+
+function removerulebyindex(index) {
+  console.log("remove: ", index)
+  let allMember = $("#ruleEditModalBody > div");
+
+  allMember[index].remove();
+
+  // saveRule()
+}
+
+function saveRule() {
+  let targets = $(".rule-target");
+  let operators = $(".rule-operator");
+  let values = $(".rule-value");
+
+  let op = [">", "<", "="];
+
+  let inputArray = [];
+
+  for (let i = 0; i < targets.length; i++) {
+    let toCompare = `${targets[i].value}`;
+    console.log("hey", toCompare);
+    let tmp = attributeListData.find((v, i) => {
+      if (v.contract == toCompare) {
+        return v;
+      }
+    });
+    inputArray.push({
+      info: { ...tmp },
+      target: targets[i].value,
+      operator: op[operators[i].value],
+      value: values[i].value
+    });
+  }
+  ENDPOINT_RULE[currentEditTargetId] = inputArray;
+  window.localStorage.setItem("endpointRules", JSON.stringify(ENDPOINT_RULE));
+
+  renderRuleCard(currentEditTargetId);
+}
+
+// function addRule() {
+//   let newRow = $('<div>')
+// }
