@@ -241,7 +241,7 @@ async function validateUser(requestUrl) {
   //     value: "2"
   //   }
   // ];
-  setTempRules();
+  // setTempRules();
 
   const endpointRules = window.localStorage.getItem("endpointRules");
   let rules;
@@ -250,10 +250,13 @@ async function validateUser(requestUrl) {
     if (requestUrl in r) {
       rules = r[requestUrl];
     }
+  } else {
+    $("small.empty-rule").css({ display: "block" });
   }
 
   if (rules) {
-    console.log(`rules`, rules);
+    // console.log(`rules`, rules);
+    $("small.empty-rule").css({ display: "none" });
     for (let rule of rules) {
       const voucherHold = VOUCHER.find(e => {
         return rule.target === e.contract;
