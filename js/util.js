@@ -1,5 +1,5 @@
 const APIENDPOINT = `https://api.staging.fst.network/api`;
-const USER_ACCESS_TOKEN = window.localStorage.getItem("user_access_token");
+let ADMIN_ACCESS_TOKEN = window.localStorage.getItem("admin_access_token");
 
 const ADMIN_PRIVATE_KEY =
   "0xc9725e8b55267957a958cb63fc3432cb21032c16ddc23809ab451d4218fcb634";
@@ -8,9 +8,16 @@ let attributeListData = [];
 var ENDPOINT_RULE = JSON.parse(window.localStorage.getItem("endpointRules"));
 
 $(async function() {
-  console.log("ready!");
   await fetchAttributeList();
   renderAttributeTable();
+
+  if (ENDPOINT_RULE == null) {
+    ENDPOINT_RULE = {
+      "/resource/a0000": [],
+      "/resource/b0000": [],
+      "/resource/c0000": []
+    };
+  }
 
   renderRuleCard("/resource/a0000");
   renderRuleCard("/resource/b0000");
@@ -69,7 +76,7 @@ async function publishFungibleVoucher() {
     headers: {
       accept: "application/json",
       "content-type": "application/json",
-      authorization: `Bearer ${USER_ACCESS_TOKEN}`
+      authorization: `Bearer ${ADMIN_ACCESS_TOKEN}`
     }
   })
     .then(res => res.json())
@@ -135,7 +142,7 @@ async function fetchAttributeList() {
     headers: {
       accept: "application/json",
       "content-type": "application/json",
-      authorization: `Bearer ${USER_ACCESS_TOKEN}`
+      authorization: `Bearer ${ADMIN_ACCESS_TOKEN}`
     }
   })
     .then(res => res.json())
@@ -192,7 +199,7 @@ async function transferAttribute() {
     headers: {
       accept: "application/json",
       "content-type": "application/json",
-      authorization: `Bearer ${USER_ACCESS_TOKEN}`
+      authorization: `Bearer ${ADMIN_ACCESS_TOKEN}`
     }
   })
     .then(res => res.json())
@@ -238,7 +245,7 @@ async function submitTransaction(rawTx, submitToken) {
     headers: {
       accept: "application/json",
       "content-type": "application/json",
-      authorization: `Bearer ${USER_ACCESS_TOKEN}`
+      authorization: `Bearer ${ADMIN_ACCESS_TOKEN}`
     }
   })
     .then(res => res.json())
@@ -546,7 +553,7 @@ function renderValueTag(symbol, order) {
 }
 
 function removerulebyindex(index) {
-  console.log("remove: ", index)
+  console.log("remove: ", index);
   let allMember = $("#ruleEditModalBody > div");
 
   allMember[index].remove();
@@ -565,7 +572,7 @@ function saveRule() {
 
   for (let i = 0; i < targets.length; i++) {
     let toCompare = `${targets[i].value}`;
-    console.log("hey", toCompare);
+
     let tmp = attributeListData.find((v, i) => {
       if (v.contract == toCompare) {
         return v;

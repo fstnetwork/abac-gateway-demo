@@ -50,7 +50,6 @@ window.onload = async function() {
 
   $("#selectResourceUrl").on("change", async function() {
     // const requestUrl = $("selectResourceUrl").text();
-    console.log(`request: ${this.value}`);
     if (ACCESS_TOKEN && this.value.startsWith("/resource")) {
       const privateKey = PRIVATE_CHEAT[KEYFILE.address];
       const signature = await signMessage(this.value, privateKey);
