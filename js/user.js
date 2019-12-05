@@ -282,7 +282,7 @@ async function validateUser(requestUrl) {
     $("small.empty-rule").css({ display: "block" });
   }
 
-  if (rules) {
+  if (rules && rules.length > 0) {
     // console.log(`rules`, rules);
     $("small.empty-rule").css({ display: "none" });
     for (let rule of rules) {
