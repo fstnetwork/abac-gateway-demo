@@ -74,7 +74,7 @@ async function loginRequest() {
   const accessToken = await login(userId, pwd);
 
   if (accessToken) {
-    // ACCESS_TOKEN = accessToken;
+    ACCESS_TOKEN = accessToken;
     window.localStorage.setItem("USER_ACCESS_TOKEN", accessToken);
     getTokenExpiry();
 
