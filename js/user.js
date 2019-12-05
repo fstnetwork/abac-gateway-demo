@@ -40,6 +40,14 @@ window.onload = async function() {
 
   $("#loginRequest").on("click", loginRequest);
 
+  $("#loginClose").on("click", () => {
+    $("#exampleModal").modal("hide");
+    // close with clear login info
+    $("div.invalid-login").css({ display: "none" });
+    $("#exampleInputId").val("");
+    $("#exampleInputPassword").val("");
+  });
+
   $("#selectResourceUrl").on("change", async function() {
     // const requestUrl = $("selectResourceUrl").text();
     console.log(`request: ${this.value}`);
@@ -241,7 +249,7 @@ async function validateUser(requestUrl) {
   //     value: "2"
   //   }
   // ];
-  setTempRules();
+  // setTempRules();
 
   const endpointRules = window.localStorage.getItem("endpointRules");
   let rules;
@@ -250,10 +258,13 @@ async function validateUser(requestUrl) {
     if (requestUrl in r) {
       rules = r[requestUrl];
     }
+  } else {
+    $("small.empty-rule").css({ display: "block" });
   }
 
   if (rules) {
-    console.log(`rules`, rules);
+    // console.log(`rules`, rules);
+    $("small.empty-rule").css({ display: "none" });
     for (let rule of rules) {
       const voucherHold = VOUCHER.find(e => {
         return rule.target === e.contract;

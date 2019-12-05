@@ -32,6 +32,14 @@
         font-size: 80%;
         color: #dc3545;
       }
+
+      .empty-rule {
+        display: none;
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 80%;
+        color: #dc3545;
+      }
     </style>
 
     <!-- <link href="./user.css" rel="stylesheet" /> -->
@@ -97,11 +105,7 @@
               </form>
             </div>
             <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
+              <button type="button" class="btn btn-secondary" id="loginClose">
                 Close
               </button>
               <button type="button" class="btn btn-primary" id="loginRequest">
@@ -166,6 +170,7 @@
                 </select>
               </div>
             </div>
+            <small class="empty-rule">empty rule detected</small>
             <textarea
               id="resourceUrlInput"
               style="word-break: break-all; width: 100%; margin-top: 20px;"
@@ -190,7 +195,7 @@
         </div>
       </div> -->
       <div style="margin-top:30px">
-        <div><h5>Response:</h5></div>
+        <div><h5 style="color: #77838f">Response:</h5></div>
         <div>
           <pre id="responseArea"></pre>
         </div>
