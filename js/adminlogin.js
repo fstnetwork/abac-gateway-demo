@@ -7,7 +7,7 @@ async function loginAdmin() {
   if (accessToken) {
     window.localStorage.setItem("admin_access_token", accessToken);
     ADMIN_ACCESS_TOKEN = window.localStorage.getItem("admin_access_token");
-
+    ADMIN_ID = window.localStorage.getItem("admin_id");
     const ethereum = await getEthereumInfo(accessToken);
 
     ADMIN_PRIVATE_KEY = ADMIN_PRIVATE_CHEAT[ethereum.address];
@@ -21,10 +21,10 @@ async function loginAdmin() {
 }
 
 async function login(id, pwd) {
-
+  window.localStorage.setItem("admin_id", id);
   $("#login").css({ display: "none" });
   $("#logout").css({ display: "block" });
-  
+
   var signInEndpoint = "https://api.staging.fst.network/signin";
 
   const query = `

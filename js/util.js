@@ -1,5 +1,6 @@
 const APIENDPOINT = `https://api.staging.fst.network/api`;
 let ADMIN_ACCESS_TOKEN = window.localStorage.getItem("admin_access_token");
+let ADMIN_ID = window.localStorage.getItem("admin_id");
 
 const ADMIN_PRIVATE_CHEAT = {
   "0x80ade42baf46aa29643845d8230626b3788f0ebc":
@@ -14,10 +15,13 @@ let attributeListData = [];
 var ENDPOINT_RULE = JSON.parse(window.localStorage.getItem("endpointRules"));
 
 $(async function() {
-  if (ADMIN_ACCESS_TOKEN == null) {
+  console.log(ADMIN_ID);
+  
+  if (ADMIN_ACCESS_TOKEN == null && ADMIN_ID == null) {
     $("#logout").css({ display: "none" });
     $("#exampleModal").modal("show");
   } else {
+    $("#username").text(ADMIN_ID);
     $("#logout").css({ display: "block" });
     $("#login").css({ display: "none" });
     let ethereum = await getEthereumInfo(ADMIN_ACCESS_TOKEN);
@@ -47,6 +51,7 @@ $(async function() {
 
 function adminlogout() {
   window.localStorage.removeItem("admin_access_token");
+  window.localStorage.removeItem("admin_id");
   window.localStorage.removeItem("endpointRules");
   window.location.reload();
 }
