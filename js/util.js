@@ -181,9 +181,14 @@ function openTransferAttribute(
   $("#afterTransferResultShow").css("display", "none");
   $("#transferAttributeSubmitButton")
     .html("Submit")
-    .removeAttr("disabled");
+    .removeAttr("disabled")
+    .removeClass("btn-secondary")
+    .addClass("btn-primary")
+    .css('cursor', 'pointer');
   $("#transferAttributeCancelButton").html("Cancel");
-
+  $("#transferValue").removeAttr("disabled").val("0");
+  $("#transferTargetAddress").removeAttr("disabled");
+  
   console.log(
     "trigger target: ",
     targetAttributeAddress,
@@ -246,8 +251,11 @@ async function transferAttribute() {
   $("#afterTransferResultShow").css("display", "");
   $("#transferAttributeSubmitButton")
     .html("Submited")
-    .attr("disabled", "true");
+    .attr("disabled", "true")
+    .removeClass("btn-primary").addClass("btn-secondary").css('cursor', 'not-allowed');
   $("#transferAttributeCancelButton").html("Close");
+  $("#transferValue").attr('disabled', 'disabled');
+  $("#transferTargetAddress").attr('disabled', 'disabled');
 }
 
 async function submitTransaction(rawTx, submitToken) {
