@@ -190,7 +190,7 @@ async function previewRules(userBalance) {
   issuerEndUserList.map(e => {
     address2NameMapping[e.address] = e.id;
   });
-  console.log(`map`, address2NameMapping);
+  // console.log(`map`, address2NameMapping);
   for (let user of Object.keys(userBalance)) {
     // console.log(user);
     const voucher = userBalance[user];
@@ -200,7 +200,7 @@ async function previewRules(userBalance) {
       validResult[source] = valid ? "OK" : "PERMISSION_DENIED";
     }
     const userId = address2NameMapping[user];
-    console.log(user, userId);
+    // console.log(user, userId);
     result[userId] = validResult;
   }
   return result;
