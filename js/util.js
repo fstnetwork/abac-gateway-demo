@@ -3,7 +3,9 @@ let ADMIN_ACCESS_TOKEN = window.localStorage.getItem("admin_access_token");
 
 const ADMIN_PRIVATE_CHEAT = {
   "0x80ade42baf46aa29643845d8230626b3788f0ebc":
-    "0xc9725e8b55267957a958cb63fc3432cb21032c16ddc23809ab451d4218fcb634"
+    "0xc9725e8b55267957a958cb63fc3432cb21032c16ddc23809ab451d4218fcb634",
+  "0x7f637fdc6749630669c792a2539aa7381092dbcb":
+    "0x9bbd5b4b304bb719f3c28bd145507d23862402397cfd7cd903a6807d7395e8bc"
 };
 
 let ADMIN_PRIVATE_KEY = "";
@@ -205,11 +207,13 @@ function openTransferAttribute(
     .removeAttr("disabled")
     .removeClass("btn-secondary")
     .addClass("btn-primary")
-    .css('cursor', 'pointer');
+    .css("cursor", "pointer");
   $("#transferAttributeCancelButton").html("Cancel");
-  $("#transferValue").removeAttr("disabled").val("0");
+  $("#transferValue")
+    .removeAttr("disabled")
+    .val("0");
   $("#transferTargetAddress").removeAttr("disabled");
-  
+
   console.log(
     "trigger target: ",
     targetAttributeAddress,
@@ -273,10 +277,12 @@ async function transferAttribute() {
   $("#transferAttributeSubmitButton")
     .html("Submited")
     .attr("disabled", "true")
-    .removeClass("btn-primary").addClass("btn-secondary").css('cursor', 'not-allowed');
+    .removeClass("btn-primary")
+    .addClass("btn-secondary")
+    .css("cursor", "not-allowed");
   $("#transferAttributeCancelButton").html("Close");
-  $("#transferValue").attr('disabled', 'disabled');
-  $("#transferTargetAddress").attr('disabled', 'disabled');
+  $("#transferValue").attr("disabled", "disabled");
+  $("#transferTargetAddress").attr("disabled", "disabled");
 }
 
 async function submitTransaction(rawTx, submitToken) {

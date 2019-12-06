@@ -20,7 +20,15 @@ var PRIVATE_CHEAT = {
   "0x7e4e9d8c8771a98d237e3debdbcc78ff7e6f6ed8":
     "0x92fd8a71f5471adc33288514aeea02a6ef431158d6729e458b4f2048c5806dd8",
   "0xa271100739501a7c5f3ac0e3ce9c18c691b8935e":
-    "0x8de30a15b4ad3da713239bbd1bfaa812cc6f3e7f4755820dec0e677257cdd28f"
+    "0x8de30a15b4ad3da713239bbd1bfaa812cc6f3e7f4755820dec0e677257cdd28f",
+  "0xdad7a7460748626e72254653a50c8cb85a56e08e":
+    "0xbd543d32c8f249877e2677e6a2c24fa0df37120a292164e48e971ce351364fa7",
+  "0x84e743b77653f6806c937ecaba5ef76fb7827a80":
+    "0x242891ddf8f076e65b680839767594df89bdf0ef253fbed65fd2e8964543249e",
+  "0x161477032cbffff28c4252905d78eff8d1af0431":
+    "0xfe34b53487f2b293d462b831abbee2cbcc1326475a7c8d44796dbe208549bcb9",
+  "0x64e5a1f11c9d96cc458e1c6a986f02e5cddcc2c7":
+    "0xf979d7a89e6b6e7be80d6d65c14c71b3501bdfbe1d1d7936cb71c3dd3cef799a"
 };
 var stagingExplorerUrl = "https://explorer.staging.fst.network";
 
@@ -68,6 +76,7 @@ window.onload = async function() {
     if (ACCESS_TOKEN && this.value.startsWith("/resource")) {
       const privateKey = PRIVATE_CHEAT[KEYFILE.address];
       const requestId = _uuid();
+      console.log(this.value, requestId, privateKey);
       const signature = await signMessage(this.value, requestId, privateKey);
       $("#resourceUrlInput").val(`${this.value}?ds=${signature}`);
       $("#requestIdArea").text(`request Id: ${requestId}`);
