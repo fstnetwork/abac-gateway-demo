@@ -17,7 +17,7 @@ let previewRulesData = {};
 
 $(async function() {
   console.log(ADMIN_ID);
-  
+
   if (ADMIN_ACCESS_TOKEN == null && ADMIN_ID == null) {
     $("#logout").css({ display: "none" });
     $("#exampleModal").modal("show");
@@ -28,9 +28,13 @@ $(async function() {
     let ethereum = await getEthereumInfo(ADMIN_ACCESS_TOKEN);
     ADMIN_PRIVATE_KEY = ADMIN_PRIVATE_CHEAT[ethereum.address];
     await fetchAttributeList();
+    // console.log(`attribute:`, attributeListData);
     await fetchClientList(ADMIN_ACCESS_TOKEN);
 
     const users = await fetchClientList(ADMIN_ACCESS_TOKEN);
+    const userBalance = await getImportedUserBalance(users, ADMIN_ACCESS_TOKEN);
+    // console.log(userBalance);
+    previewRulesData = await previewRules(userBalance);
     setInterval(async () => {
       const userBalance = await getImportedUserBalance(
         users,
@@ -38,7 +42,8 @@ $(async function() {
       );
       // console.log(userBalance);
       previewRulesData = await previewRules(userBalance);
-    }, 5000);
+      // console.log(`preview`, previewRulesData);
+    }, 3000);
   }
 
   renderTransferUserList();
@@ -55,6 +60,14 @@ $(async function() {
   renderRuleCard("/resource/a0000");
   renderRuleCard("/resource/b0000");
   renderRuleCard("/resource/c0000");
+
+  $("#previewBtn").on("click", () => {
+    $("#previewUserRuleModal").modal("show");
+    $("#previewUserPre").text(JSON.stringify(previewRulesData, null, 2));
+  });
+  $("#previewUserClose").on("click", () => {
+    $("#previewUserRuleModal").modal("hide");
+  });
 });
 
 function adminlogout() {

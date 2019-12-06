@@ -42,7 +42,7 @@ async function fetchClientList(access_token) {
         return { ...i.node };
       });
     });
-  console.log(issuerEndUserList);
+  console.log(`issuer end user:`, issuerEndUserList);
   return issuerEndUserList;
 }
 
@@ -186,15 +186,22 @@ async function validateUser(requestUrl, voucher) {
 async function previewRules(userBalance) {
   let result = {};
   // const rules = window.localStorage.getItem("endpointRules");
+  let address2NameMapping = {};
+  issuerEndUserList.map(e => {
+    address2NameMapping[e.address] = e.id;
+  });
+  console.log(`map`, address2NameMapping);
   for (let user of Object.keys(userBalance)) {
     // console.log(user);
     const voucher = userBalance[user];
     let validResult = {};
     for (let source of sources) {
       const valid = await validateUser(source, voucher);
-      validResult[source] = valid;
+      validResult[source] = valid ? "OK" : "PERMISSION_DENIED";
     }
-    result[user] = validResult;
+    const userId = address2NameMapping[user];
+    console.log(user, userId);
+    result[userId] = validResult;
   }
   return result;
   // console.log(`preview:`, result);
