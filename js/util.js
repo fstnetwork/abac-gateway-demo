@@ -42,7 +42,7 @@ function renderAttributeTable() {
     var cols = "";
 
     cols += `<td>${i}</td>`;
-    cols += `<td>${v.contract}</td>`;
+    cols += `<td><a href="https://explorer.staging.fst.network/token/${v.contract}" target="_blank">${v.contract}</a></td>`;
     cols += `<td>${v.name}</td>`;
     cols += `<td>${v.symbol}</td>`;
     cols += `<td>${numberWithCommas(v.totalSupply)}</td>`;
