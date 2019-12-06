@@ -29,6 +29,8 @@ $(async function() {
     await fetchClientList(ADMIN_ACCESS_TOKEN);
 
     logout();
+    const users = await fetchClientList(ADMIN_ACCESS_TOKEN);
+    getImportedUserBalance(users, ADMIN_ACCESS_TOKEN);
   }
 
   renderTransferUserList();
@@ -88,10 +90,14 @@ async function openAddAttribute() {
     .removeAttr("disabled")
     .removeClass("btn-secondary")
     .addClass("btn-primary")
-    .css('cursor', 'pointer');
+    .css("cursor", "pointer");
   $("#attributeCancelButton").html("Cancel");
-  $("#vouchername").removeAttr("disabled").val("");
-  $("#vouchersymbol").removeAttr("disabled").val("");
+  $("#vouchername")
+    .removeAttr("disabled")
+    .val("");
+  $("#vouchersymbol")
+    .removeAttr("disabled")
+    .val("");
 }
 
 async function publishFungibleVoucher() {
@@ -155,10 +161,12 @@ async function publishFungibleVoucher() {
   $("#attributeSubmitButton")
     .html("Submited")
     .attr("disabled", "true")
-    .removeClass("btn-primary").addClass("btn-secondary").css('cursor', 'not-allowed');
+    .removeClass("btn-primary")
+    .addClass("btn-secondary")
+    .css("cursor", "not-allowed");
   $("#attributeCancelButton").html("Close");
-  $("#vouchername").attr('disabled', 'disabled');
-  $("#vouchersymbol").attr('disabled', 'disabled');
+  $("#vouchername").attr("disabled", "disabled");
+  $("#vouchersymbol").attr("disabled", "disabled");
 
   setTimeout(async function() {
     await fetchAttributeList();
