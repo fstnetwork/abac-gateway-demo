@@ -21,6 +21,10 @@ async function loginAdmin() {
 }
 
 async function login(id, pwd) {
+
+  $("#login").css({ display: "none" });
+  $("#logout").css({ display: "block" });
+  
   var signInEndpoint = "https://api.staging.fst.network/signin";
 
   const query = `

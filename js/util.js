@@ -15,11 +15,16 @@ var ENDPOINT_RULE = JSON.parse(window.localStorage.getItem("endpointRules"));
 
 $(async function() {
   if (ADMIN_ACCESS_TOKEN == null) {
+    $("#logout").css({ display: "none" });
     $("#exampleModal").modal("show");
   } else {
+    $("#logout").css({ display: "block" });
+    $("#login").css({ display: "none" });
     let ethereum = await getEthereumInfo(ADMIN_ACCESS_TOKEN);
     ADMIN_PRIVATE_KEY = ADMIN_PRIVATE_CHEAT[ethereum.address];
     await fetchAttributeList();
+    await fetchClientList(ADMIN_ACCESS_TOKEN);
+
     const users = await fetchClientList(ADMIN_ACCESS_TOKEN);
     const userBalance = await getImportedUserBalance(users, ADMIN_ACCESS_TOKEN);
     // console.log(`imported user balance: `, userBalance);
@@ -41,6 +46,12 @@ $(async function() {
   renderRuleCard("/resource/b0000");
   renderRuleCard("/resource/c0000");
 });
+
+function adminlogout() {
+  window.localStorage.removeItem("admin_access_token");
+  window.localStorage.removeItem("endpointRules");
+  window.location.reload();
+}
 
 function renderAttributeTable() {
   attributeListData.map((v, i) => {
@@ -138,7 +149,7 @@ async function publishFungibleVoucher() {
   $("#afterAttributePublish > div > div > a").attr("href", targetTxLink);
 
   $("#attributeSubmitButton")
-    .html("Submited")
+    .html("Submitted")
     .attr("disabled", "true")
     .removeClass("btn-primary")
     .addClass("btn-secondary")
@@ -210,6 +221,8 @@ function openTransferAttribute(
   targetName,
   targetSymbol
 ) {
+  renderTransferUserList();
+
   $("#afterTransferResultShow").css("display", "none");
   $("#transferAttributeSubmitButton")
     .html("Submit")
@@ -284,7 +297,7 @@ async function transferAttribute() {
   $("#afterTransferResultShow > div > div > a").attr("href", targetTxLink);
   $("#afterTransferResultShow").css("display", "");
   $("#transferAttributeSubmitButton")
-    .html("Submited")
+    .html("Submitted")
     .attr("disabled", "true")
     .removeClass("btn-primary")
     .addClass("btn-secondary")
@@ -689,8 +702,8 @@ function saveRuleV2() {
     if (targetSet.add(targets[i].value).size != i + 1) {
       console.log(`target duplicate: ${targets[i].value}`);
     }
-    if (values[i].value <= 0) {
-      console.log(`value must be a positive value: ${values[i].value}`);
+    if (values[i].value < 0) {
+      console.log(`value must be a non zero value: ${values[i].value}`);
     }
     let toCompare = `${targets[i].value}`;
     let tmp = attributeListData.find((v, i) => {
