@@ -1,5 +1,3 @@
-var signInEndpoint = "https://api.staging.fst.network/signin";
-
 async function loginAdmin() {
   const userId = $("#exampleInputId").val();
   const pwd = $("#exampleInputPassword").val();
@@ -9,6 +7,12 @@ async function loginAdmin() {
   if (accessToken) {
     window.localStorage.setItem("admin_access_token", accessToken);
     ADMIN_ACCESS_TOKEN = window.localStorage.getItem("admin_access_token");
+
+    const ethereum = await getEthereumInfo(accessToken);
+
+    ADMIN_PRIVATE_KEY = ADMIN_PRIVATE_CHEAT[ethereum.address];
+
+
     window.location.reload();
   } else {
     $("div.invalid-login").css({ display: "block" });
@@ -17,6 +21,8 @@ async function loginAdmin() {
 }
 
 async function login(id, pwd) {
+  var signInEndpoint = "https://api.staging.fst.network/signin";
+
   const query = `
     mutation signIn{
       signIn(input: {
@@ -57,4 +63,25 @@ async function apiRequest(endpoint, query, accessToken) {
       }
       return json;
     });
+}
+
+async function getEthereumInfo(accessToken) {
+  var apiEndpoint = "https://api.staging.fst.network/api";
+
+  if (accessToken) {
+    const query = `
+    query ethereum {
+      ethereumKey{
+        address
+        crypto
+        version
+      }
+    }
+    `;
+    const response = await apiRequest(apiEndpoint, query, accessToken);
+    if (response.data.ethereumKey) {
+      return response.data.ethereumKey;
+    }
+  }
+  return;
 }
