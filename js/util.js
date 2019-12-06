@@ -57,6 +57,19 @@ function renderAttributeTable() {
   });
 }
 
+async function openAddAttribute() {
+  $("#afterAttributePublish").css("display", "none");
+  $("#attributeSubmitButton")
+    .html("Submit")
+    .removeAttr("disabled")
+    .removeClass("btn-secondary")
+    .addClass("btn-primary")
+    .css('cursor', 'pointer');
+  $("#attributeCancelButton").html("Cancel");
+  $("#vouchername").removeAttr("disabled").val("");
+  $("#vouchersymbol").removeAttr("disabled").val("");
+}
+
 async function publishFungibleVoucher() {
   let name = $("#vouchername").val();
   let symbol = $("#vouchersymbol").val();
@@ -114,6 +127,14 @@ async function publishFungibleVoucher() {
   const targetTxLink = `https://explorer.staging.fst.network/tx/${txHash}`;
 
   $("#afterAttributePublish > div > div > a").attr("href", targetTxLink);
+
+  $("#attributeSubmitButton")
+    .html("Submited")
+    .attr("disabled", "true")
+    .removeClass("btn-primary").addClass("btn-secondary").css('cursor', 'not-allowed');
+  $("#attributeCancelButton").html("Close");
+  $("#vouchername").attr('disabled', 'disabled');
+  $("#vouchersymbol").attr('disabled', 'disabled');
 
   setTimeout(async function() {
     await fetchAttributeList();
