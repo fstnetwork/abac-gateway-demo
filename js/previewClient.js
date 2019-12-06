@@ -196,5 +196,6 @@ async function previewRules(userBalance) {
     }
     result[user] = validResult;
   }
+  return result;
   // console.log(`preview:`, result);
 }
