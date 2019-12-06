@@ -20,7 +20,11 @@ var PRIVATE_CHEAT = {
   "0x7e4e9d8c8771a98d237e3debdbcc78ff7e6f6ed8":
     "0x92fd8a71f5471adc33288514aeea02a6ef431158d6729e458b4f2048c5806dd8",
   "0xa271100739501a7c5f3ac0e3ce9c18c691b8935e":
-    "0x8de30a15b4ad3da713239bbd1bfaa812cc6f3e7f4755820dec0e677257cdd28f"
+    "0x8de30a15b4ad3da713239bbd1bfaa812cc6f3e7f4755820dec0e677257cdd28f",
+  "0xdad7a7460748626e72254653a50c8cb85a56e08e":
+    "0xbd543d32c8f249877e2677e6a2c24fa0df37120a292164e48e971ce351364fa7",
+  "0x84e743b77653f6806c937ecaba5ef76fb7827a80":
+    "0x242891ddf8f076e65b680839767594df89bdf0ef253fbed65fd2e8964543249e"
 };
 var stagingExplorerUrl = "https://explorer.staging.fst.network";
 
@@ -68,6 +72,7 @@ window.onload = async function() {
     if (ACCESS_TOKEN && this.value.startsWith("/resource")) {
       const privateKey = PRIVATE_CHEAT[KEYFILE.address];
       const requestId = _uuid();
+      console.log(this.value, requestId, privateKey);
       const signature = await signMessage(this.value, requestId, privateKey);
       $("#resourceUrlInput").val(`${this.value}?ds=${signature}`);
       $("#requestIdArea").text(`request Id: ${requestId}`);
