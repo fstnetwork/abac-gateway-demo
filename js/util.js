@@ -15,12 +15,18 @@ var ENDPOINT_RULE = JSON.parse(window.localStorage.getItem("endpointRules"));
 
 $(async function() {
   if (ADMIN_ACCESS_TOKEN == null) {
+    $("#logout").css({ display: "none" });
     $("#exampleModal").modal("show");
   } else {
+    $("#logout").css({ display: "block" });
+    $("#login").css({ display: "none" });
     let ethereum = await getEthereumInfo(ADMIN_ACCESS_TOKEN);
     ADMIN_PRIVATE_KEY = ADMIN_PRIVATE_CHEAT[ethereum.address];
     await fetchAttributeList();
     await fetchClientList(ADMIN_ACCESS_TOKEN);
+
+    const users = await fetchClientList(ADMIN_ACCESS_TOKEN);
+    getImportedUserBalance(users, ADMIN_ACCESS_TOKEN);
   }
 
   renderTransferUserList();
@@ -38,6 +44,12 @@ $(async function() {
   renderRuleCard("/resource/b0000");
   renderRuleCard("/resource/c0000");
 });
+
+function adminlogout() {
+  window.localStorage.removeItem("admin_access_token");
+  window.localStorage.removeItem("endpointRules");
+  window.location.reload();
+}
 
 function renderAttributeTable() {
   attributeListData.map((v, i) => {
@@ -66,10 +78,14 @@ async function openAddAttribute() {
     .removeAttr("disabled")
     .removeClass("btn-secondary")
     .addClass("btn-primary")
-    .css('cursor', 'pointer');
+    .css("cursor", "pointer");
   $("#attributeCancelButton").html("Cancel");
-  $("#vouchername").removeAttr("disabled").val("");
-  $("#vouchersymbol").removeAttr("disabled").val("");
+  $("#vouchername")
+    .removeAttr("disabled")
+    .val("");
+  $("#vouchersymbol")
+    .removeAttr("disabled")
+    .val("");
 }
 
 async function publishFungibleVoucher() {
@@ -133,10 +149,12 @@ async function publishFungibleVoucher() {
   $("#attributeSubmitButton")
     .html("Submitted")
     .attr("disabled", "true")
-    .removeClass("btn-primary").addClass("btn-secondary").css('cursor', 'not-allowed');
+    .removeClass("btn-primary")
+    .addClass("btn-secondary")
+    .css("cursor", "not-allowed");
   $("#attributeCancelButton").html("Close");
-  $("#vouchername").attr('disabled', 'disabled');
-  $("#vouchersymbol").attr('disabled', 'disabled');
+  $("#vouchername").attr("disabled", "disabled");
+  $("#vouchersymbol").attr("disabled", "disabled");
 
   setTimeout(async function() {
     await fetchAttributeList();
@@ -215,7 +233,6 @@ function openTransferAttribute(
     .removeAttr("disabled")
     .val("0");
   $("#transferTargetAddress").removeAttr("disabled");
-
 
   console.log(
     "trigger target: ",

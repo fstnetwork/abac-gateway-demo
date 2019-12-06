@@ -34,8 +34,14 @@ var stagingExplorerUrl = "https://explorer.staging.fst.network";
 
 window.onload = async function() {
   const accessToken = window.localStorage.getItem("USER_ACCESS_TOKEN");
+  const userId = window.localStorage.getItem("USER_ID");
+
+  $("#logout").css({ display: "none" });
+
   if (accessToken) {
-    console.log("login already:", accessToken);
+    $("#logout").css({ display: "block" });
+    $("#login").css({ display: "none" });
+    console.log("login already:", accessToken, userId);
     const exp = getTokenExpiry();
     if (notExpired(exp)) {
       console.log("token valid");
@@ -46,6 +52,18 @@ window.onload = async function() {
       window.localStorage.removeItem("USER_ACCESS_TOKEN");
       window.localStorage.removeItem("USER_ID");
     }
+
+    $("#logoutRequest").on("click", () => {
+      localStorage.removeItem("USER_ACCESS_TOKEN");
+      localStorage.removeItem("USER_ID");
+      location.reload();
+
+      $("#logoutModal").modal("hide");
+    });
+
+    $("#logoutClose").on("click", () => {
+      $("#logoutModal").modal("hide");
+    });
   }
 
   $("#requestBtn").click(async e => {
@@ -86,6 +104,18 @@ window.onload = async function() {
     }
     $("#responseArea").text("");
   });
+
+  $("#logoutRequest").on("click", () => {
+    localStorage.removeItem("USER_ACCESS_TOKEN");
+    localStorage.removeItem("USER_ID");
+    location.reload();
+
+    $("#logoutModal").modal("hide");
+  });
+
+  $("#logoutClose").on("click", () => {
+    $("#logoutModal").modal("hide");
+  });
 };
 
 async function loginRequest() {
@@ -93,6 +123,9 @@ async function loginRequest() {
   const pwd = $("#exampleInputPassword").val();
 
   const accessToken = await login(userId, pwd);
+
+  $("#login").css({ display: "none" });
+  $("#logout").css({ display: "block" });
 
   if (accessToken) {
     ACCESS_TOKEN = accessToken;
