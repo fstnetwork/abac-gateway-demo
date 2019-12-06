@@ -64,10 +64,13 @@ window.onload = async function() {
     // const requestUrl = $("selectResourceUrl").text();
     if (ACCESS_TOKEN && this.value.startsWith("/resource")) {
       const privateKey = PRIVATE_CHEAT[KEYFILE.address];
-      const signature = await signMessage(this.value, privateKey);
+      const requestId = _uuid();
+      const signature = await signMessage(this.value, requestId, privateKey);
       $("#resourceUrlInput").val(`${this.value}?ds=${signature}`);
+      $("#requestIdArea").text(`request Id: ${requestId}`);
     } else {
       $("#resourceUrlInput").val("");
+      $("#requestIdArea").text(``);
     }
     $("#responseArea").text("");
   });
@@ -88,7 +91,8 @@ async function loginRequest() {
     $("#exampleModal").modal("toggle");
 
     $("#userName").text(userId);
-    $("#accessTokenPanel").text(accessToken);
+    $("#dataEntry").text(`${userId}'s data entry:`);
+    // $("#accessTokenPanel").text(accessToken);
     $("#requestBtn").prop("disabled", false);
     $("#selectResourceUrl").prop("disabled", false);
 
@@ -100,8 +104,8 @@ async function loginRequest() {
     );
     KEYFILE = ethereum;
 
-    const voucherData = await getVoucherData(accessToken);
-    VOUCHER = voucherData;
+    await setIntervalToGetVoucherData(accessToken);
+    // VOUCHER = voucherData;
 
     setDefault();
 
@@ -214,6 +218,15 @@ async function request(accessToken) {
   }
 }
 
+async function setIntervalToGetVoucherData(accessToken) {
+  VOUCHER = await getVoucherData(accessToken);
+
+  setInterval(async function() {
+    console.log(`not expiry with access token`);
+    VOUCHER = await getVoucherData(accessToken);
+  }, 5000);
+}
+
 async function getVoucherData(accessToken) {
   const query = `
   {
@@ -264,6 +277,7 @@ async function getVoucherData(accessToken) {
           </tr>`;
         $("#voucherTableBody").append(tr);
       }
+      // VOUCHER = voucherData;
       return voucherData;
     }
     return;
@@ -394,9 +408,10 @@ async function getPrivateKey(keyfile, passphrase) {
   );
 }
 
-async function signMessage(message, privateKey) {
+async function signMessage(message, id, privateKey) {
   let wallet = await new ethers.Wallet(privateKey);
-  return await wallet.signMessage(message);
+  let message2sign = `id=${id}&path=${message}`;
+  return await wallet.signMessage(message2sign);
 }
 
 async function recoverSignature(message, flatSig) {
@@ -409,6 +424,21 @@ async function recoverSignature(message, flatSig) {
 
   let sig = ethers.utils.splitSignature(flatSig);
   return await contract.verifyString(message, sig.v, sig.r, sig.s);
+}
+
+function _uuid() {
+  var d = Date.now();
+  if (
+    typeof performance !== "undefined" &&
+    typeof performance.now === "function"
+  ) {
+    d += performance.now(); //use high-precision timer if available
+  }
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+    var r = (d + Math.random() * 16) % 16 | 0;
+    d = Math.floor(d / 16);
+    return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+  });
 }
 
 function setTempRules() {

@@ -119,13 +119,13 @@
       <div style="padding: 20px;"></div>
 
       <div id="userPanel">
-        <div style="color: #77838f">access token:</div>
+        <!-- <div style="color: #77838f">access token:</div>
         <textarea
           id="accessTokenPanel"
           style="word-break: break-all; width: 100%"
           readonly
-        ></textarea>
-        <div style="color: #77838f">data entry:</div>
+        ></textarea> -->
+        <div style="color: #77838f" id="dataEntry">data entry:</div>
         <!-- <textarea id="ethereumAddress" style="width: 100%" readonly> </textarea> -->
         <a href="" target="_blank" id="etherAddressAnchor"></a>
         <div style="margin-top: 5px; margin-bottom:5px; color: #77838f">
@@ -153,7 +153,7 @@
         <form>
           <div class="form-group">
             <label for="exampleInputEmail1" style="color: #77838f"
-              >Api Request</label
+              >API Request</label
             >
             <div class="row">
               <div class="col-2">
@@ -171,6 +171,19 @@
               </div>
             </div>
             <small class="empty-rule">empty rule detected</small>
+            <div class="row">
+              <div class="col-12">
+                <code
+                  >Digital Signature (ds) = sign( hash( request_id,
+                  resource_path ), client_private_key )</code
+                >
+              </div>
+              <div class="col-12">
+                <small id="requestIdArea"></small>
+              </div>
+            </div>
+
+            <small id="requestIdArea"></small>
             <textarea
               id="resourceUrlInput"
               style="word-break: break-all; width: 100%; margin-top: 20px;"
