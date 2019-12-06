@@ -17,9 +17,11 @@ $(async function() {
   } else {
     let ethereum = await getEthereumInfo(ADMIN_ACCESS_TOKEN);
     ADMIN_PRIVATE_KEY = ADMIN_PRIVATE_CHEAT[ethereum.address];
+    await fetchAttributeList();
+    await fetchClientList(ADMIN_ACCESS_TOKEN);
   }
 
-  await fetchAttributeList();
+  renderTransferUserList();
   renderAttributeTable();
 
   if (ENDPOINT_RULE == null) {
@@ -176,6 +178,12 @@ function openTransferAttribute(
   targetName,
   targetSymbol
 ) {
+  $("#afterTransferResultShow").css("display", "none");
+  $("#transferAttributeSubmitButton")
+    .html("Submit")
+    .removeAttr("disabled");
+  $("#transferAttributeCancelButton").html("Cancel");
+
   console.log(
     "trigger target: ",
     targetAttributeAddress,
@@ -236,6 +244,10 @@ async function transferAttribute() {
 
   $("#afterTransferResultShow > div > div > a").attr("href", targetTxLink);
   $("#afterTransferResultShow").css("display", "");
+  $("#transferAttributeSubmitButton")
+    .html("Submited")
+    .attr("disabled", "true");
+  $("#transferAttributeCancelButton").html("Close");
 }
 
 async function submitTransaction(rawTx, submitToken) {
@@ -622,7 +634,6 @@ function saveRule() {
   }, 1000);
 }
 
-
 function saveRuleV2() {
   let targets = $(".rule-target");
   let operators = $(".rule-operator");
@@ -631,10 +642,10 @@ function saveRuleV2() {
   let inputArray = [];
   const targetSet = new Set(inputArray);
   for (let i = 0; i < targets.length; i++) {
-    if(targetSet.add(targets[i].value).size != i+1){
+    if (targetSet.add(targets[i].value).size != i + 1) {
       console.log(`target duplicate: ${targets[i].value}`);
     }
-    if(values[i].value <= 0) {
+    if (values[i].value <= 0) {
       console.log(`value must be a positive value: ${values[i].value}`);
     }
     let toCompare = `${targets[i].value}`;
@@ -654,8 +665,8 @@ function saveRuleV2() {
   window.localStorage.setItem("endpointRules", JSON.stringify(ENDPOINT_RULE));
   renderRuleCard(currentEditTargetId);
   setTimeout(function() {
-    $("#ruleEditModal").modal("hide")
-  }, 1000)
+    $("#ruleEditModal").modal("hide");
+  }, 1000);
 }
 
 // function addRule() {
