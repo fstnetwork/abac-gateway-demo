@@ -13,6 +13,7 @@ let ADMIN_PRIVATE_KEY = "";
 
 let attributeListData = [];
 var ENDPOINT_RULE = JSON.parse(window.localStorage.getItem("endpointRules"));
+let previewRulesData = {};
 
 $(async function() {
   console.log(ADMIN_ID);
@@ -30,7 +31,14 @@ $(async function() {
     await fetchClientList(ADMIN_ACCESS_TOKEN);
 
     const users = await fetchClientList(ADMIN_ACCESS_TOKEN);
-    getImportedUserBalance(users, ADMIN_ACCESS_TOKEN);
+    setInterval(async () => {
+      const userBalance = await getImportedUserBalance(
+        users,
+        ADMIN_ACCESS_TOKEN
+      );
+      // console.log(userBalance);
+      previewRulesData = await previewRules(userBalance);
+    }, 5000);
   }
 
   renderTransferUserList();
