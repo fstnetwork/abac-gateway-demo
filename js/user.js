@@ -31,9 +31,12 @@ window.onload = async function() {
     const exp = getTokenExpiry();
     if (notExpired(exp)) {
       console.log("token valid");
+      ACCESS_TOKEN = accessToken;
+      await getUserInfo(accessToken);
     } else {
       console.log("token invalid, logout");
       window.localStorage.removeItem("USER_ACCESS_TOKEN");
+      window.localStorage.removeItem("USER_ID");
     }
   }
 
@@ -85,35 +88,61 @@ async function loginRequest() {
   if (accessToken) {
     ACCESS_TOKEN = accessToken;
     window.localStorage.setItem("USER_ACCESS_TOKEN", accessToken);
+    window.localStorage.setItem("USER_ID", userId);
     getTokenExpiry();
 
     $("div.invalid-login").css({ display: "none" });
     $("#exampleModal").modal("toggle");
 
-    $("#userName").text(userId);
-    $("#dataEntry").text(`${userId}'s data entry:`);
-    // $("#accessTokenPanel").text(accessToken);
-    $("#requestBtn").prop("disabled", false);
-    $("#selectResourceUrl").prop("disabled", false);
+    getUserInfo(accessToken);
 
-    const ethereum = await getEthereumInfo(accessToken);
-    $("#etherAddressAnchor").text(ethereum.address);
-    $("#etherAddressAnchor").attr(
-      "href",
-      `${stagingExplorerUrl}/address/${ethereum.address}`
-    );
-    KEYFILE = ethereum;
+    // $("#userName").text(userId);
+    // $("#dataEntry").text(`${userId}'s data entry:`);
+    // // $("#accessTokenPanel").text(accessToken);
+    // $("#requestBtn").prop("disabled", false);
+    // $("#selectResourceUrl").prop("disabled", false);
 
-    await setIntervalToGetVoucherData(accessToken);
-    // VOUCHER = voucherData;
+    // const ethereum = await getEthereumInfo(accessToken);
+    // $("#etherAddressAnchor").text(ethereum.address);
+    // $("#etherAddressAnchor").attr(
+    //   "href",
+    //   `${stagingExplorerUrl}/address/${ethereum.address}`
+    // );
+    // KEYFILE = ethereum;
 
-    setDefault();
+    // await setIntervalToGetVoucherData(accessToken);
+    // // VOUCHER = voucherData;
+
+    // setDefault();
 
     return accessToken;
   } else {
     $("div.invalid-login").css({ display: "block" });
   }
   return;
+}
+
+async function getUserInfo(accessToken) {
+  const userId = window.localStorage.getItem("USER_ID");
+
+  $("#userName").text(userId);
+  $("#dataEntry").text(`${userId}'s data entry:`);
+  // $("#accessTokenPanel").text(accessToken);
+  $("#requestBtn").prop("disabled", false);
+  $("#selectResourceUrl").prop("disabled", false);
+
+  const ethereum = await getEthereumInfo(accessToken);
+  $("#etherAddressAnchor").text(ethereum.address);
+  $("#etherAddressAnchor").attr(
+    "href",
+    `${stagingExplorerUrl}/address/${ethereum.address}`
+  );
+  KEYFILE = ethereum;
+
+  await setIntervalToGetVoucherData(accessToken);
+  // VOUCHER = voucherData;
+
+  setDefault();
 }
 
 async function login(id, pwd) {
@@ -222,7 +251,7 @@ async function setIntervalToGetVoucherData(accessToken) {
   VOUCHER = await getVoucherData(accessToken);
 
   setInterval(async function() {
-    console.log(`not expiry with access token`);
+    // console.log(`not expiry with access token`);
     VOUCHER = await getVoucherData(accessToken);
   }, 5000);
 }
