@@ -1,13 +1,24 @@
 const APIENDPOINT = `https://api.staging.fst.network/api`;
 let ADMIN_ACCESS_TOKEN = window.localStorage.getItem("admin_access_token");
 
-const ADMIN_PRIVATE_KEY =
-  "0xc9725e8b55267957a958cb63fc3432cb21032c16ddc23809ab451d4218fcb634";
+const ADMIN_PRIVATE_CHEAT = {
+  "0x80ade42baf46aa29643845d8230626b3788f0ebc":
+    "0xc9725e8b55267957a958cb63fc3432cb21032c16ddc23809ab451d4218fcb634"
+};
+
+let ADMIN_PRIVATE_KEY = "";
 
 let attributeListData = [];
 var ENDPOINT_RULE = JSON.parse(window.localStorage.getItem("endpointRules"));
 
 $(async function() {
+  if (ADMIN_ACCESS_TOKEN == null) {
+    $("#exampleModal").modal("show");
+  } else {
+    let ethereum = await getEthereumInfo(ADMIN_ACCESS_TOKEN);
+    ADMIN_PRIVATE_KEY = ADMIN_PRIVATE_CHEAT[ethereum.address];
+  }
+
   await fetchAttributeList();
   renderAttributeTable();
 
@@ -305,7 +316,7 @@ function renderRuleCard(targetKey) {
 
   let firstRow = `
   <div class="row">
-    <div class="col-12">
+    <div class="col">
       <h4>
         Clients who hold
       </h4>
@@ -362,9 +373,9 @@ function renderRuleCard(targetKey) {
   newRow.append(`
   <div class="row pt-3">
     <div class="col-12">
-      <h4>
-        Can Access Endpoint
-      </h4>
+      <h6 style="color: rgb(128, 122, 122)">
+        can access to the resource endpoint
+      </h6>
     </div>
   </div>`);
 
@@ -373,6 +384,7 @@ function renderRuleCard(targetKey) {
 }
 
 let currentEditTargetId = "";
+let editRuleRenderId = 0;
 
 function editRule(targetId) {
   $("#ruleEditModalTitle").empty();
@@ -384,11 +396,11 @@ function editRule(targetId) {
 
   $("#ruleEditModalBody").empty();
   targetDataArray.map((v, i) => {
-    let newRow = $("<div>").addClass("input-group", "mb-3");
+    let newRow = $("<div>")
+      .addClass("input-group")
+      .addClass("shadow-sm");
     newRow.append(renderTargetSelect(v.target, i));
-    newRow.append(renderTargetTag(i));
     newRow.append(renderOperatorSelect(v.operator, i));
-    newRow.append(renderOperatorSelectTag(i));
     newRow.append(renderValueInput(v.value, i));
     newRow.append(renderValueTag(v.info.symbol, i));
 
@@ -397,21 +409,23 @@ function editRule(targetId) {
       .append(newRow);
     let lastRowlevel = $("<div>")
       .addClass("rows")
+      .addClass("pt-2")
+      .attr("id", `wrappingrow${i}`)
       .append(collevel);
     $("#ruleEditModalBody").append(lastRowlevel);
   });
+
+  editRuleRenderId = targetDataArray.length;
 
   $("#ruleEditModal").modal("show");
 }
 
 function addRule() {
-  let i = $(".rule-target").length;
+  let i = ++editRuleRenderId;
 
   let newRow = $("<div>").addClass("input-group", "mb-3");
   newRow.append(renderTargetSelect("", i));
-  newRow.append(renderTargetTag(i));
   newRow.append(renderOperatorSelect("", i));
-  newRow.append(renderOperatorSelectTag(i));
   newRow.append(renderValueInput(0, i));
   newRow.append(renderValueTag("", i));
   let collevel = $(`<div>`)
@@ -419,9 +433,36 @@ function addRule() {
     .append(newRow);
   let lastRowlevel = $("<div>")
     .addClass("rows")
+    .addClass("pt-2")
+    .attr("id", `wrappingrow${i}`)
     .append(collevel);
+
   $("#ruleEditModalBody").append(lastRowlevel);
 }
+
+function removerulebyindex(index) {
+  console.log("remove: ", index);
+  $(`#ruleEditModalBody > #wrappingrow${index}`).remove();
+  // allMember[index].remove();
+}
+
+// function renderPrependTag(order) {
+//   if (order == 0) {
+//     return `
+//       <div class="input-group-prepend">
+//         <span class="input-group-text text-primary  border-primary" id="targetRule${order}">
+//           <i class="material-icons">
+//             arrow_forward
+//           </i>
+//         </span>
+//       </div>`;
+//   } else {
+//     return `
+//       <div class="input-group-prepend">
+//         <span class="input-group-text text-success  border-success" id="targetRule${order}">AND</span>
+//       </div>`;
+//   }
+// }
 
 function renderTargetSelect(targetContractAddress, order) {
   let selectPart = $("<select>")
@@ -447,12 +488,6 @@ function renderTargetSelect(targetContractAddress, order) {
   });
 
   return selectPart;
-}
-
-function renderTargetTag(order) {
-  return `<div class="input-group-append">
-    <label class="input-group-text" for="targetRule${order}">target</label>
-  </div>`;
 }
 
 function renderOperatorSelect(targetOperator, order) {
@@ -552,15 +587,6 @@ function renderValueTag(symbol, order) {
   </div>`;
 }
 
-function removerulebyindex(index) {
-  console.log("remove: ", index);
-  let allMember = $("#ruleEditModalBody > div");
-
-  allMember[index].remove();
-
-  // saveRule()
-}
-
 function saveRule() {
   let targets = $(".rule-target");
   let operators = $(".rule-operator");
@@ -586,12 +612,14 @@ function saveRule() {
     });
   }
 
-  console.log(ENDPOINT_RULE);
-
   ENDPOINT_RULE[currentEditTargetId] = inputArray;
   window.localStorage.setItem("endpointRules", JSON.stringify(ENDPOINT_RULE));
 
   renderRuleCard(currentEditTargetId);
+
+  setTimeout(function() {
+    $("#ruleEditModal").modal("hide")
+  }, 1000)
 }
 
 // function addRule() {
