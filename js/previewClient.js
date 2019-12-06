@@ -42,6 +42,7 @@ async function fetchClientList(access_token) {
       });
     });
   console.log(issuerEndUserList);
+  return issuerEndUserList;
 }
 
 function renderTransferUserList() {
@@ -55,3 +56,129 @@ function renderTransferUserList() {
 }
 
 function renderClientList() {}
+
+async function getImportedUserBalance(users, access_token) {
+  let result = {};
+  for (let user of users) {
+    // console.log(`user`, user);
+    // console.log(`${}`)
+    const address = user.address;
+    const query = `
+      query getbalance {
+        explorer{
+          account(address: "${address}"){
+            erc20TokenBalance(first: 100){
+              edges{
+                node{
+                  contract{
+                    contract
+                    name
+                  }
+                  owner
+                  value
+                }
+              }
+            }
+          }
+        }
+      }
+    `;
+    const balance = await apiRequest(APIENDPOINT, query, access_token);
+    const userBalance = balance.data.explorer.account.erc20TokenBalance.edges.map(
+      e => {
+        return {
+          owner: e.node.owner,
+          value: e.node.value,
+          ...e.node.contract
+        };
+      }
+    );
+    // console.log(`balance`, userBalance);
+    result[user.address] = userBalance;
+  }
+  // console.log(result);
+  return result;
+}
+
+async function apiRequest(endpoint, query, accessToken) {
+  return fetch(endpoint, {
+    mode: "cors",
+    method: "POST",
+    body: JSON.stringify({ query: `${query}` }),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      ...(accessToken
+        ? {
+            Authorization: `Bearer ${accessToken}`
+          }
+        : {})
+    }
+  })
+    .then(res => res.json())
+    .then(json => {
+      if (json.error) {
+        console.error("apifetch error", json.error);
+      }
+      return json;
+    });
+}
+
+async function validateUser(requestUrl) {
+  const endpointRules = window.localStorage.getItem("endpointRules");
+  let rules;
+  if (endpointRules) {
+    let r = JSON.parse(endpointRules);
+    if (requestUrl in r) {
+      rules = r[requestUrl];
+    }
+  } else {
+    $("small.empty-rule").css({ display: "block" });
+  }
+
+  if (rules && rules.length > 0) {
+    // console.log(`rules`, rules);
+    $("small.empty-rule").css({ display: "none" });
+    for (let rule of rules) {
+      const voucherHold = VOUCHER.find(e => {
+        return rule.target === e.contract;
+      });
+      if (voucherHold) {
+        switch (rule.operator) {
+          case ">":
+            if (Number(voucherHold.value) <= Number(rule.value)) {
+              return false;
+            }
+            break;
+          case "<":
+            if (Number(voucherHold.value) >= Number(rule.value)) {
+              return false;
+            }
+            break;
+          case "=":
+            if (Number(voucherHold.value) !== Number(rule.value)) {
+              return false;
+            }
+            break;
+        }
+      } else {
+        switch (rule.operator) {
+          case ">":
+            return false;
+          case "<":
+            break;
+          case "=":
+            if (Number(rule.value) !== 0) {
+              return false;
+            }
+            break;
+        }
+      }
+    }
+    return true;
+  }
+  // no rules, always denied
+  return false;
+}
+
+async function previewRules(userBalance) {}
