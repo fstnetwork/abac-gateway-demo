@@ -45,6 +45,7 @@ async function fetchClientList(access_token) {
 }
 
 function renderTransferUserList() {
+  $("#transferTargetAddress").empty();
   let toAppend = "";
   issuerEndUserList.map((v, i) => {
     toAppend += `<option value="${v.address}">

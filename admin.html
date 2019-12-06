@@ -26,14 +26,14 @@
   <div class="p-5">
     <div class="container">
       <div class="row">
-        <div class="col-11">
+        <div class="col-8">
           <h2 style="color: rgb(128, 122, 122)">ABAC Gateway Demo</h2>
           <p style="color: rgb(128, 122, 122)">
             Attribute-based Access Control using attributes defined by the
             gateway admin
           </p>
         </div>
-        <div class="col-1">
+        <div class="col-4 text-right">
           <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#exampleModal">
             Login
           </button>
@@ -43,11 +43,12 @@
 
     <div class="container">
       <div class="row align-items-center">
-        <div class="col-5" style="padding-top: .75em; padding-bottom: .75em;">
+        <div class="col-6" style="padding-top: .75em; padding-bottom: .75em;">
           <h3>Attribute List</h3>
         </div>
-        <div class="col-7" style="padding-top: .75em; padding-bottom: .75em;">
-          <button class="btn btn-primary float-right" data-toggle="modal" data-target="#addAttributeModal" onclick="openAddAttribute()">
+        <div class="col-6" style="padding-top: .75em; padding-bottom: .75em;">
+          <button class="btn btn-primary float-right" data-toggle="modal" data-target="#addAttributeModal"
+            onclick="openAddAttribute()">
             Add Attribute
           </button>
         </div>
@@ -71,122 +72,122 @@
       </div>
     </div>
 
-      <br />
-      <br />
+    <br />
+    <br />
 
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <h2 style="color: rgb(128, 122, 122)">
-              Resource Endpoints ABAC Rules
-            </h2>
-            <p style="color: rgb(128, 122, 122)">
-              Admin defines which attributes combination is required to access
-              to each resource
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="container p-3">
+    <div class="container">
       <div class="row">
-        <div class="col-3">
-          <div class="row">
-            <div class="col-12">
-              <h5>GET /resource/a00000</h5>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <p>Current Rules</p>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <div id="resourcea0000"></div>
-              <!-- rule part end -->
-              <div class="row pt-2">
-                <div class="col text-right">
-                  <a href="#" class="shadow-sm btn btn-info" onclick="editRule('/resource/a0000')">Edit</a>
-                </div>
-              </div>
-            </div>
-            <!-- card body end -->
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="container p-3">
-      <div class="row">
-        <div class="col-3">
-          <div class="row">
-            <div class="col-12">
-              <h5>GET /resource/b00000</h5>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <p>Current Rules</p>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <div id="resourceb0000"></div>
-              <!-- rule part end -->
-              <div class="row pt-2">
-                <div class="col text-right">
-                  <a href="#" class="shadow-sm btn btn-info" onclick="editRule('/resource/b0000')">Edit</a>
-                </div>
-              </div>
-            </div>
-            <!-- card body end -->
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="container p-3">
-      <div class="row">
-        <div class="col-3">
-          <div class="row">
-            <div class="col-12">
-              <h5>GET /resource/c00000</h5>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <p>Current Rules</p>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <div id="resourcec0000"></div>
-
-              <!-- rule part end -->
-              <div class="row pt-2">
-                <div class="col text-right">
-                  <a href="#" class="shadow-sm btn btn-info" onclick="editRule('/resource/c0000')">Edit</a>
-                </div>
-              </div>
-            </div>
-            <!-- card body end -->
-          </div>
+        <div class="col-12">
+          <h2 style="color: rgb(128, 122, 122)">
+            Resource Endpoints ABAC Rules
+          </h2>
+          <p style="color: rgb(128, 122, 122)">
+            Admin defines which attributes combination is required to access
+            to each resource
+          </p>
         </div>
       </div>
     </div>
   </div>
 
+  <div class="container p-3">
+    <div class="row">
+      <div class="col-3">
+        <div class="row">
+          <div class="col-12">
+            <h5>GET /resource/a00000</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <p>Current Rules</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <div id="resourcea0000"></div>
+            <!-- rule part end -->
+            <div class="row pt-2">
+              <div class="col text-right">
+                <a href="#" class="shadow-sm btn btn-info" onclick="editRule('/resource/a0000')">Edit</a>
+              </div>
+            </div>
+          </div>
+          <!-- card body end -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container p-3">
+    <div class="row">
+      <div class="col-3">
+        <div class="row">
+          <div class="col-12">
+            <h5>GET /resource/b00000</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <p>Current Rules</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <div id="resourceb0000"></div>
+            <!-- rule part end -->
+            <div class="row pt-2">
+              <div class="col text-right">
+                <a href="#" class="shadow-sm btn btn-info" onclick="editRule('/resource/b0000')">Edit</a>
+              </div>
+            </div>
+          </div>
+          <!-- card body end -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container p-3">
+    <div class="row">
+      <div class="col-3">
+        <div class="row">
+          <div class="col-12">
+            <h5>GET /resource/c00000</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <p>Current Rules</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <div id="resourcec0000"></div>
+
+            <!-- rule part end -->
+            <div class="row pt-2">
+              <div class="col text-right">
+                <a href="#" class="shadow-sm btn btn-info" onclick="editRule('/resource/c0000')">Edit</a>
+              </div>
+            </div>
+          </div>
+          <!-- card body end -->
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
   <footer class="text-muted" style="background-color: #f7f7f7;">
     <div class="container-fluid p-3">
-      <p>Powered by FSTNETWORK</p>
+      <p>Powered by FST NETWORK</p>
     </div>
   </footer>
 
@@ -262,7 +263,8 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" id="attributeCancelButton" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+          <button type="button" id="attributeCancelButton" class="btn btn-secondary" data-dismiss="modal"
+            aria-label="Close">
             Close
           </button>
           <button type="button" id="attributeSubmitButton" class="btn btn-primary" onclick="publishFungibleVoucher()">
@@ -289,7 +291,8 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="transferValue">Value</label>
-            <input type="number" min="0" value="0" class="form-control" id="transferValue" aria-describedby="emailHelp" />
+            <input type="number" min="0" value="0" class="form-control" id="transferValue"
+              aria-describedby="emailHelp" />
           </div>
 
           <div class="form-group">

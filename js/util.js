@@ -131,7 +131,7 @@ async function publishFungibleVoucher() {
   $("#afterAttributePublish > div > div > a").attr("href", targetTxLink);
 
   $("#attributeSubmitButton")
-    .html("Submited")
+    .html("Submitted")
     .attr("disabled", "true")
     .removeClass("btn-primary").addClass("btn-secondary").css('cursor', 'not-allowed');
   $("#attributeCancelButton").html("Close");
@@ -201,6 +201,8 @@ function openTransferAttribute(
   targetName,
   targetSymbol
 ) {
+  renderTransferUserList();
+
   $("#afterTransferResultShow").css("display", "none");
   $("#transferAttributeSubmitButton")
     .html("Submit")
@@ -213,6 +215,7 @@ function openTransferAttribute(
     .removeAttr("disabled")
     .val("0");
   $("#transferTargetAddress").removeAttr("disabled");
+
 
   console.log(
     "trigger target: ",
@@ -275,7 +278,7 @@ async function transferAttribute() {
   $("#afterTransferResultShow > div > div > a").attr("href", targetTxLink);
   $("#afterTransferResultShow").css("display", "");
   $("#transferAttributeSubmitButton")
-    .html("Submited")
+    .html("Submitted")
     .attr("disabled", "true")
     .removeClass("btn-primary")
     .addClass("btn-secondary")
@@ -680,8 +683,8 @@ function saveRuleV2() {
     if (targetSet.add(targets[i].value).size != i + 1) {
       console.log(`target duplicate: ${targets[i].value}`);
     }
-    if (values[i].value <= 0) {
-      console.log(`value must be a positive value: ${values[i].value}`);
+    if (values[i].value < 0) {
+      console.log(`value must be a non zero value: ${values[i].value}`);
     }
     let toCompare = `${targets[i].value}`;
     let tmp = attributeListData.find((v, i) => {
