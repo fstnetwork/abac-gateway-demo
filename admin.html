@@ -34,7 +34,10 @@
           </p>
         </div>
         <div class="col-1">
-          <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#exampleModal">
+          <button id="logout" type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#logoutModal">
+            Logout
+          </button>
+          <button id="login" type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#exampleModal">
             Login
           </button>
         </div>
@@ -189,6 +192,32 @@
       <p>Powered by FSTNETWORK</p>
     </div>
   </footer>
+
+  <!-- Logout Modal -->
+  <div
+    class="modal fade"
+    id="logoutModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="logoutModalLabel"
+    aria-hidden="true"
+    >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+            <label for="logoutInputEmail1">Logout?</label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="logoutClose">
+            No
+          </button>
+          <button type="button" class="btn btn-danger" id="logoutRequest">
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
+    </div>
 
   <!-- Login Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

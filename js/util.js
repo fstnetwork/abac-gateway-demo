@@ -15,12 +15,20 @@ var ENDPOINT_RULE = JSON.parse(window.localStorage.getItem("endpointRules"));
 
 $(async function() {
   if (ADMIN_ACCESS_TOKEN == null) {
+    $("#logout").css({ display: "none" });
     $("#exampleModal").modal("show");
+
+    logout();
+
   } else {
+    $("#logout").css({ display: "block" });
+    $("#login").css({ display: "none" });
     let ethereum = await getEthereumInfo(ADMIN_ACCESS_TOKEN);
     ADMIN_PRIVATE_KEY = ADMIN_PRIVATE_CHEAT[ethereum.address];
     await fetchAttributeList();
     await fetchClientList(ADMIN_ACCESS_TOKEN);
+
+    logout();
   }
 
   renderTransferUserList();
@@ -38,6 +46,20 @@ $(async function() {
   renderRuleCard("/resource/b0000");
   renderRuleCard("/resource/c0000");
 });
+
+function logout() {
+  $("#logoutRequest").on("click", () => {
+    localStorage.removeItem("admin_access_token");
+    localStorage.removeItem("endpointRules");
+    location.reload();
+
+    $("#logoutModal").modal("hide");
+  });
+
+  $("#logoutClose").on("click", () => {
+    $("#logoutModal").modal("hide");
+  });
+}
 
 function renderAttributeTable() {
   attributeListData.map((v, i) => {
