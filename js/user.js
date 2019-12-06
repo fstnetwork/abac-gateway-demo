@@ -104,8 +104,8 @@ async function loginRequest() {
     );
     KEYFILE = ethereum;
 
-    const voucherData = await getVoucherData(accessToken);
-    VOUCHER = voucherData;
+    await setIntervalToGetVoucherData(accessToken);
+    // VOUCHER = voucherData;
 
     setDefault();
 
@@ -218,6 +218,15 @@ async function request(accessToken) {
   }
 }
 
+async function setIntervalToGetVoucherData(accessToken) {
+  VOUCHER = await getVoucherData(accessToken);
+
+  setInterval(async function() {
+    console.log(`not expiry with access token`);
+    VOUCHER = await getVoucherData(accessToken);
+  }, 5000);
+}
+
 async function getVoucherData(accessToken) {
   const query = `
   {
@@ -268,6 +277,7 @@ async function getVoucherData(accessToken) {
           </tr>`;
         $("#voucherTableBody").append(tr);
       }
+      // VOUCHER = voucherData;
       return voucherData;
     }
     return;
