@@ -21,7 +21,9 @@ $(async function() {
     ADMIN_PRIVATE_KEY = ADMIN_PRIVATE_CHEAT[ethereum.address];
     await fetchAttributeList();
     const users = await fetchClientList(ADMIN_ACCESS_TOKEN);
-    getImportedUserBalance(users, ADMIN_ACCESS_TOKEN);
+    const userBalance = await getImportedUserBalance(users, ADMIN_ACCESS_TOKEN);
+    // console.log(`imported user balance: `, userBalance);
+    previewRules(userBalance);
   }
 
   renderTransferUserList();

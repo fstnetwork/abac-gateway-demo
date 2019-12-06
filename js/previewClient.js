@@ -1,4 +1,5 @@
 let issuerEndUserList = [];
+const sources = ["/resource/a0000", "/resource/b0000", "/resource/c0000"];
 
 async function fetchClientList(access_token) {
   const query = `
@@ -124,7 +125,7 @@ async function apiRequest(endpoint, query, accessToken) {
     });
 }
 
-async function validateUser(requestUrl) {
+async function validateUser(requestUrl, voucher) {
   const endpointRules = window.localStorage.getItem("endpointRules");
   let rules;
   if (endpointRules) {
@@ -140,7 +141,7 @@ async function validateUser(requestUrl) {
     // console.log(`rules`, rules);
     $("small.empty-rule").css({ display: "none" });
     for (let rule of rules) {
-      const voucherHold = VOUCHER.find(e => {
+      const voucherHold = voucher.find(e => {
         return rule.target === e.contract;
       });
       if (voucherHold) {
@@ -181,4 +182,18 @@ async function validateUser(requestUrl) {
   return false;
 }
 
-async function previewRules(userBalance) {}
+async function previewRules(userBalance) {
+  let result = {};
+  // const rules = window.localStorage.getItem("endpointRules");
+  for (let user of Object.keys(userBalance)) {
+    // console.log(user);
+    const voucher = userBalance[user];
+    let validResult = {};
+    for (let source of sources) {
+      const valid = await validateUser(source, voucher);
+      validResult[source] = valid;
+    }
+    result[user] = validResult;
+  }
+  // console.log(`preview:`, result);
+}
