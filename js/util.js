@@ -45,7 +45,7 @@ function renderAttributeTable() {
     cols += `<td><a href="https://explorer.staging.fst.network/token/${v.contract}" target="_blank">${v.contract}</a></td>`;
     cols += `<td>${v.name}</td>`;
     cols += `<td>${v.symbol}</td>`;
-    cols += `<td>${v.totalSupply}</td>`;
+    cols += `<td>${numberWithCommas(v.totalSupply)}</td>`;
 
     cols += `<td><button type="button" class="btn btn-primary" onclick="openTransferAttribute('${v.contract}', '${v.name}', '${v.symbol}')">Transfer</button></td>`;
 
@@ -618,8 +618,8 @@ function saveRule() {
   renderRuleCard(currentEditTargetId);
 
   setTimeout(function() {
-    $("#ruleEditModal").modal("hide")
-  }, 1000)
+    $("#ruleEditModal").modal("hide");
+  }, 1000);
 }
 
 
@@ -661,3 +661,9 @@ function saveRuleV2() {
 // function addRule() {
 //   let newRow = $('<div>')
 // }
+
+const numberWithCommas = x => {
+  let parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+};
