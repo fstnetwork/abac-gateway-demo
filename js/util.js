@@ -622,6 +622,42 @@ function saveRule() {
   }, 1000)
 }
 
+
+function saveRuleV2() {
+  let targets = $(".rule-target");
+  let operators = $(".rule-operator");
+  let values = $(".rule-value");
+  let op = [">", "<", "="];
+  let inputArray = [];
+  const targetSet = new Set(inputArray);
+  for (let i = 0; i < targets.length; i++) {
+    if(targetSet.add(targets[i].value).size != i+1){
+      console.log(`target duplicate: ${targets[i].value}`);
+    }
+    if(values[i].value <= 0) {
+      console.log(`value must be a positive value: ${values[i].value}`);
+    }
+    let toCompare = `${targets[i].value}`;
+    let tmp = attributeListData.find((v, i) => {
+      if (v.contract == toCompare) {
+        return v;
+      }
+    });
+    inputArray.push({
+      info: { ...tmp },
+      target: targets[i].value,
+      operator: op[operators[i].value],
+      value: values[i].value
+    });
+  }
+  ENDPOINT_RULE[currentEditTargetId] = inputArray;
+  window.localStorage.setItem("endpointRules", JSON.stringify(ENDPOINT_RULE));
+  renderRuleCard(currentEditTargetId);
+  setTimeout(function() {
+    $("#ruleEditModal").modal("hide")
+  }, 1000)
+}
+
 // function addRule() {
 //   let newRow = $('<div>')
 // }
