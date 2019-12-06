@@ -1,477 +1,356 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
 
-    <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-      crossorigin="anonymous"
-    />
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <title>ABAC Gateway Demo</title>
-  </head>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
 
-  <body>
-    <div class="p-5">
-      <div class="container">
-        <div class="row">
-          <div class="col-11">
-            <h2 style="color: rgb(128, 122, 122)">ABAC Gateway Demo</h2>
-          </div>
-          <div class="col-1">
-            <button
-              type="button"
-              class="btn btn-outline-info"
-              data-toggle="modal"
-              data-target="#exampleModal"
-            >
-              Login
-            </button>
-          </div>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <title>ABAC Gateway Demo</title>
+</head>
+
+<body>
+  <div class="p-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-11">
+          <h2 style="color: rgb(128, 122, 122)">ABAC Gateway Demo</h2>
+          <p style="color: rgb(128, 122, 122)"> Attribute-based Access Control using attributes defined by the gateway
+            admin</p>
+        </div>
+        <div class="col-1">
+          <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#exampleModal">
+            Login
+          </button>
         </div>
       </div>
+    </div>
 
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-5" style="padding-top: .75em; padding-bottom: .75em;">
-            <h6>Attribute List</h6>
-          </div>
-          <div class="col-7" style="padding-top: .75em; padding-bottom: .75em;">
-            <button
-              class="btn btn-primary float-right"
-              data-toggle="modal"
-              data-target="#addAttributeModal"
-            >
-              <!-- <i class="material-icons">
-              add
-            </i> -->
-              Add Attribute
-            </button>
-          </div>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-5" style="padding-top: .75em; padding-bottom: .75em;">
+          <h3>Attribute List</h3>
         </div>
-        <div class="row pt-3">
-          <div class="col-12">
-            <table
-              id="attributeList"
-              class="table table-striped attribute-list"
-            >
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Address</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">symbol</th>
-                  <th scope="col">totalSupply</th>
-                  <th scope="col">transfer</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
+        <div class="col-7" style="padding-top: .75em; padding-bottom: .75em;">
+          <button class="btn btn-primary float-right" data-toggle="modal" data-target="#addAttributeModal">
+            Add Attribute
+          </button>
         </div>
       </div>
-
-      <br />
-      <br />
-
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <h1 style="color: rgb(128, 122, 122)">
-              Resource Endpoints ABAC Rules
-            </h1>
-            <p style="color: rgb(128, 122, 122)">
-              Admin defines which attributes combination is required to access
-              to each resource
-            </p>
-          </div>
+      <div class="row pt-3">
+        <div class="col-12">
+          <table id="attributeList" class="table table-striped attribute-list">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Address</th>
+                <th scope="col">Name</th>
+                <th scope="col">Symbol</th>
+                <th scope="col">Total Supply</th>
+                <th scope="col">Transfer</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
       </div>
+    </div>
 
-      <div class="container p-3">
-        <div class="row">
-          <div class="col-3">
-            <div class="row">
-              <div class="col-12">
-                <h5>GET /resource/a00000</h5>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <p>Current Rules</p>
-              </div>
+    <br />
+    <br />
+
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h1 style="color: rgb(128, 122, 122)">
+            Resource Endpoints ABAC Rules
+          </h1>
+          <p style="color: rgb(128, 122, 122)">
+            Admin defines which attributes combination is required to access
+            to each resource
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container p-3">
+      <div class="row">
+        <div class="col-3">
+          <div class="row">
+            <div class="col-12">
+              <h5>GET /resource/a00000</h5>
             </div>
           </div>
-          <div class="col">
-            <div class="card shadow-sm">
-              <div class="card-body">
-                <div id="resourcea0000"></div>
-                <!-- rule part end -->
-                <div class="row pt-2">
-                  <div class="col text-right">
-                    <a
-                      href="#"
-                      class="shadow-sm btn btn-info"
-                      onclick="editRule('/resource/a0000')"
-                      >Edit</a
-                    >
-                  </div>
+          <div class="row">
+            <div class="col-12">
+              <p>Current Rules</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <div id="resourcea0000"></div>
+              <!-- rule part end -->
+              <div class="row pt-2">
+                <div class="col text-right">
+                  <a href="#" class="shadow-sm btn btn-info" onclick="editRule('/resource/a0000')">Edit</a>
                 </div>
               </div>
-              <!-- card body end -->
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="container p-3">
-        <div class="row">
-          <div class="col-3">
-            <div class="row">
-              <div class="col-12">
-                <h5>GET /resource/b00000</h5>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <p>Current Rules</p>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card shadow-sm">
-              <div class="card-body">
-                <div id="resourceb0000"></div>
-                <!-- rule part end -->
-                <div class="row pt-2">
-                  <div class="col text-right">
-                    <a
-                      href="#"
-                      class="shadow-sm btn btn-info"
-                      onclick="editRule('/resource/b0000')"
-                      >Edit</a
-                    >
-                  </div>
-                </div>
-              </div>
-              <!-- card body end -->
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="container p-3">
-        <div class="row">
-          <div class="col-3">
-            <div class="row">
-              <div class="col-12">
-                <h5>GET /resource/c00000</h5>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <p>Current Rules</p>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card shadow-sm">
-              <div class="card-body">
-                <div id="resourcec0000"></div>
-
-                <!-- rule part end -->
-                <div class="row pt-2">
-                  <div class="col text-right">
-                    <a
-                      href="#"
-                      class="shadow-sm btn btn-info"
-                      onclick="editRule('/resource/c0000')"
-                      >Edit</a
-                    >
-                  </div>
-                </div>
-              </div>
-              <!-- card body end -->
-            </div>
+            <!-- card body end -->
           </div>
         </div>
       </div>
     </div>
 
-    <footer class="text-muted" style="background-color: #f7f7f7;">
-      <div class="container-fluid p-3">
-        <p>Powered by FSTNETWORK</p>
-      </div>
-    </footer>
-
-    <!-- Login Modal -->
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label for="exampleInputEmail1">Id</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="exampleInputId"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter id"
-                />
-              </div>
-              <div class="form-group">
-                <label for="exampleInputPassword">Password</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  id="exampleInputPassword"
-                  placeholder="Password"
-                />
-              </div>
-            </form>
+    <div class="container p-3">
+      <div class="row">
+        <div class="col-3">
+          <div class="row">
+            <div class="col-12">
+              <h5>GET /resource/b00000</h5>
+            </div>
           </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary"
-              id="loginRequest"
-              onclick="loginAdmin()"
-            >
-              Send
-            </button>
+          <div class="row">
+            <div class="col-12">
+              <p>Current Rules</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <div id="resourceb0000"></div>
+              <!-- rule part end -->
+              <div class="row pt-2">
+                <div class="col text-right">
+                  <a href="#" class="shadow-sm btn btn-info" onclick="editRule('/resource/b0000')">Edit</a>
+                </div>
+              </div>
+            </div>
+            <!-- card body end -->
           </div>
         </div>
       </div>
     </div>
 
-    <!-- add attrubute modal -->
-    <div
-      class="modal fade"
-      id="addAttributeModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="addAttributeModal"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Attribute</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
+    <div class="container p-3">
+      <div class="row">
+        <div class="col-3">
+          <div class="row">
+            <div class="col-12">
+              <h5>GET /resource/c00000</h5>
+            </div>
           </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="vouchername">name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="vouchername"
-                aria-describedby="emailHelp"
-              />
+          <div class="row">
+            <div class="col-12">
+              <p>Current Rules</p>
             </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <div id="resourcec0000"></div>
 
-            <div class="form-group">
-              <label for="vouchersymbol">symbol</label>
-              <input type="text" class="form-control" id="vouchersymbol" />
-            </div>
-
-            <div id="afterAttributePublish" style="display: none;">
-              <div class="row pt-3">
-                <div class="col-6 text-center">
-                  <h5>
-                    Publish Complete:
-                  </h5>
-                </div>
-                <div class="col-6">
-                  <a
-                    class="btn btn-info btn-sm btn-block class-center"
-                    target="_blank"
-                  >
-                    Verify On Network
-                    <!-- <i class="material-icons">
-                      trending_flat
-                    </i> -->
-                  </a>
+              <!-- rule part end -->
+              <div class="row pt-2">
+                <div class="col text-right">
+                  <a href="#" class="shadow-sm btn btn-info" onclick="editRule('/resource/c0000')">Edit</a>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-primary"
-              onclick="publishFungibleVoucher()"
-            >
-              Submit
-            </button>
+            <!-- card body end -->
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- transfer modal -->
-    <div
-      class="modal fade"
-      id="transferAttribute"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="transferAttribute"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="transferAttributeTitle">
-              Transfer Attribute
-            </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
+  <footer class="text-muted" style="background-color: #f7f7f7;">
+    <div class="container-fluid p-3">
+      <p>Powered by FSTNETWORK</p>
+    </div>
+  </footer>
+
+  <!-- Login Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <form>
             <div class="form-group">
-              <label for="transferValue">value</label>
-              <input
-                type="number"
-                class="form-control"
-                id="transferValue"
-                aria-describedby="emailHelp"
-              />
+              <label for="exampleInputEmail1">Id</label>
+              <input type="email" class="form-control" id="exampleInputId" aria-describedby="emailHelp"
+                placeholder="Enter id" />
             </div>
-
             <div class="form-group">
-              <label for="transferTargetAddress">Target Address</label>
-              <select class="form-control" id="transferTargetAddress">
-                <option value="0x8f46d0ed30ae516102dfe8e658a3a3b6f4f469e6">
-                  0x8f46d0ed30ae516102dfe8e658a3a3b6f4f469e6</option
-                >
-                <option value="0x2c0bd00d525e1a8f65ecf8861a1d3991f8e5b1f7">
-                  0x2c0bd00d525e1a8f65ecf8861a1d3991f8e5b1f7</option
-                >
-              </select>
+              <label for="exampleInputPassword">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password" />
             </div>
-
-            <div id="afterTransferResultShow" style="display: none;">
-              <div class="row pt-3">
-                <div class="col-6 text-center">
-                  <h5>
-                    Transfer Complete:
-                  </h5>
-                </div>
-                <div class="col-6">
-                  <a
-                    class="btn btn-info btn-sm btn-block class-center"
-                    target="_blank"
-                  >
-                    Verify On Network
-                    <!-- <i class="material-icons">
-                      trending_flat
-                    </i> -->
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-primary"
-              onclick="transferAttribute()"
-            >
-              Submit
-            </button>
-          </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" id="loginRequest" onclick="loginAdmin()">
+            Send
+          </button>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- edit rule modal -->
-    <div
-      class="modal fade"
-      id="ruleEditModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="ruleEditModal"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="ruleEditModalTitle"></h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
+  <!-- add attrubute modal -->
+  <div class="modal fade" id="addAttributeModal" tabindex="-1" role="dialog" aria-labelledby="addAttributeModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Attribute</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="vouchername">name</label>
+            <input type="text" class="form-control" id="vouchername" aria-describedby="emailHelp" />
           </div>
 
-          <div class="modal-body">
-            <div class="row pb-2">
-              <div class="col">
-                <h4>
-                  Clients who hold
-                </h4>
-              </div>
-              <div class="col text-right">
-                <button class="btn btn-outline-info" onclick="addRule()">
-                  Add Rule
-                </button>
-              </div>
-            </div>
+          <div class="form-group">
+            <label for="vouchersymbol">symbol</label>
+            <input type="text" class="form-control" id="vouchersymbol" />
+          </div>
 
-            <div id="ruleEditModalBody"></div>
-
+          <div id="afterAttributePublish" style="display: none;">
             <div class="row pt-3">
-              <div class="col">
-                <h6 style="color: rgb(128, 122, 122)">Can Access EndPoint</h6>
+              <div class="col-6 text-center">
+                <h5>
+                  Publish Complete:
+                </h5>
+              </div>
+              <div class="col-6">
+                <a class="btn btn-info btn-sm btn-block class-center" target="_blank">
+                  Verify On Network
+                  <!-- <i class="material-icons">
+                      trending_flat
+                    </i> -->
+                </a>
               </div>
             </div>
+          </div>
+        </div>
 
-            <!-- <div class="row">
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="publishFungibleVoucher()">
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- transfer modal -->
+  <div class="modal fade" id="transferAttribute" tabindex="-1" role="dialog" aria-labelledby="transferAttribute"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="transferAttributeTitle">
+            Transfer Attribute
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="transferValue">value</label>
+            <input type="number" class="form-control" id="transferValue" aria-describedby="emailHelp" />
+          </div>
+
+          <div class="form-group">
+            <label for="transferTargetAddress">Target Address</label>
+            <select class="form-control" id="transferTargetAddress">
+              <option value="0x8f46d0ed30ae516102dfe8e658a3a3b6f4f469e6">
+                0x8f46d0ed30ae516102dfe8e658a3a3b6f4f469e6</option>
+              <option value="0x2c0bd00d525e1a8f65ecf8861a1d3991f8e5b1f7">
+                0x2c0bd00d525e1a8f65ecf8861a1d3991f8e5b1f7</option>
+            </select>
+          </div>
+
+          <div id="afterTransferResultShow" style="display: none;">
+            <div class="row pt-3">
+              <div class="col-6 text-center">
+                <h5>
+                  Transfer Complete:
+                </h5>
+              </div>
+              <div class="col-6">
+                <a class="btn btn-info btn-sm btn-block class-center" target="_blank">
+                  Verify On Network
+                  <!-- <i class="material-icons">
+                      trending_flat
+                    </i> -->
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="transferAttribute()">
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- edit rule modal -->
+  <div class="modal fade" id="ruleEditModal" tabindex="-1" role="dialog" aria-labelledby="ruleEditModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ruleEditModalTitle"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="row pb-2">
+            <div class="col">
+              <h4>
+                Clients who hold
+              </h4>
+            </div>
+            <div class="col text-right">
+              <button class="btn btn-outline-info" onclick="addRule()">
+                Add Rule
+              </button>
+            </div>
+          </div>
+
+          <div id="ruleEditModalBody"></div>
+
+          <div class="row pt-3">
+            <div class="col">
+              <h6 style="color: rgb(128, 122, 122)">Can Access EndPoint</h6>
+            </div>
+          </div>
+
+          <!-- <div class="row">
             <div class="col-12">
               <div class="input-group mb-3">
 
@@ -509,44 +388,35 @@
               </div>
             </div>
           </div> -->
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">
-              Cancel
-            </button>
-            <button type="button" class="btn btn-primary" onclick="saveRule()">
-              Save
-            </button>
-          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">
+            Cancel
+          </button>
+          <button type="button" class="btn btn-primary" onclick="saveRule()">
+            Save
+          </button>
         </div>
       </div>
     </div>
-    <!-- edit rule modal end -->
+  </div>
+  <!-- edit rule modal end -->
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-      crossorigin="anonymous"
-    ></script>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
 
-    <script
-      charset="utf-8"
-      src="https://cdn.ethers.io/scripts/ethers-v4.min.js"
-      type="text/javascript"
-    ></script>
-    <script src="./js/util.js"></script>
-    <script src="./js/adminlogin.js"></script>
-  </body>
+  <script charset="utf-8" src="https://cdn.ethers.io/scripts/ethers-v4.min.js" type="text/javascript"></script>
+  <script src="./js/util.js"></script>
+  <script src="./js/adminlogin.js"></script>
+</body>
+
 </html>
