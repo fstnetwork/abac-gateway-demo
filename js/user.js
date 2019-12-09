@@ -64,6 +64,8 @@ window.onload = async function() {
     $("#logoutClose").on("click", () => {
       $("#logoutModal").modal("hide");
     });
+  } else {
+    $("#exampleModal").modal("show");
   }
 
   $("#requestBtn").click(async e => {
@@ -139,7 +141,7 @@ async function loginRequest() {
     getUserInfo(accessToken);
 
     // $("#userName").text(userId);
-    // $("#dataEntry").text(`${userId}'s data entry:`);
+    // $("#dataEntry").text(`${userId}'s Data Entry:`);
     // // $("#accessTokenPanel").text(accessToken);
     // $("#requestBtn").prop("disabled", false);
     // $("#selectResourceUrl").prop("disabled", false);
@@ -168,7 +170,7 @@ async function getUserInfo(accessToken) {
   const userId = window.localStorage.getItem("USER_ID");
 
   $("#userName").text(userId);
-  $("#dataEntry").text(`${userId}'s data entry:`);
+  $("#dataEntry").text(`${userId}'s Data Entry:`);
   // $("#accessTokenPanel").text(accessToken);
   $("#requestBtn").prop("disabled", false);
   $("#selectResourceUrl").prop("disabled", false);
