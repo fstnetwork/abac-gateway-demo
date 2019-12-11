@@ -308,7 +308,7 @@ async function getVoucherData(accessToken) {
   const query = `
   {
     me {
-      fungibleVoucherBalance(issuer: "0x7F637fdC6749630669c792a2539Aa7381092DBCB") {
+      fungibleVoucherBalance(issuer: "0x80ade42baf46aa29643845d8230626b3788f0ebc") {
         edges {
           node {
             contract {
