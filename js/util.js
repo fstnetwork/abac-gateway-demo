@@ -271,7 +271,7 @@ function openTransferAttribute(
   currentTransferTarget = targetAttributeAddress;
 
   $("#transferAttributeTitle").text(
-    `Transfer Attribute ${targetName} (${targetSymbol})`
+    `Transfer attribute: ${targetName} (${targetSymbol})`
   );
   $("#transferAttribute").modal("show");
 }
@@ -483,7 +483,7 @@ let editRuleRenderId = 0;
 
 function editRule(targetId) {
   $("#ruleEditModalTitle").empty();
-  $("#ruleEditModalTitle").append(`Edit Endpoint ${targetId} Access Rule`);
+  $("#ruleEditModalTitle").append(`Edit endpoint ${targetId} ABAC rule`);
 
   let targetDataArray = ENDPOINT_RULE[targetId];
 
