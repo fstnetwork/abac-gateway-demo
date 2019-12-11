@@ -45,7 +45,7 @@ $(async function() {
       // console.log(userBalance);
       previewRulesData = await previewRules(userBalance);
       // console.log(`preview`, previewRulesData);
-    }, 3000);
+    }, 5000);
   }
 
   renderTransferUserList();
