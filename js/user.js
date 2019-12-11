@@ -305,10 +305,27 @@ async function setIntervalToGetVoucherData(accessToken) {
 }
 
 async function getVoucherData(accessToken) {
+  const endUsers2IssuerMap = {
+    "0xdad7a7460748626e72254653a50c8cb85a56e08e":
+      "0x7f637fdc6749630669c792a2539aa7381092dbcb",
+    "0x84e743b77653f6806c937ecaba5ef76fb7827a80":
+      "0x7f637fdc6749630669c792a2539aa7381092dbcb",
+    "0x64e5a1f11c9d96cc458e1c6a986f02e5cddcc2c7":
+      "0x80ade42baf46aa29643845d8230626b3788f0ebc",
+    "0x161477032cbffff28c4252905d78eff8d1af0431":
+      "0x80ade42baf46aa29643845d8230626b3788f0ebc",
+    "0x4dc73491a7cf7f1742cbe3dd90a57b74edf09b65":
+      "0x4923d0ef0adec78500f39c934524e88d8354b332",
+    "0xa302e50e9959fca3c576178e98957365ad0d0890":
+      "0x4923d0ef0adec78500f39c934524e88d8354b332"
+  };
+
   const query = `
   {
     me {
-      fungibleVoucherBalance(issuer: "0x80ade42baf46aa29643845d8230626b3788f0ebc") {
+      fungibleVoucherBalance(issuer: "${
+        endUsers2IssuerMap[KEYFILE.address.toLowerCase()]
+      }") {
         edges {
           node {
             contract {
