@@ -36,6 +36,69 @@ var PRIVATE_CHEAT = {
 };
 var stagingExplorerUrl = "https://explorer.staging.fst.network";
 
+(function(CHEAT) {
+  const EXTRA_CHEAT = [
+    {
+      addressString: "0x09b6beffdbade9530a3fd0f403a7a9028bc6312e",
+      checksumAddressString: "0x09b6bEfFdbade9530a3fd0f403A7a9028bC6312e",
+      privateKeyString:
+        "bde521dc43746685f7da348c89b3644db86256c8b315a71945442cea46e21657"
+    },
+    {
+      addressString: "0x14e529e2a331e89b79eb0692732075857145db7b",
+      checksumAddressString: "0x14E529e2A331e89B79EB0692732075857145db7B",
+      privateKeyString:
+        "9e69cb1dca974b4bf858cceeccb97403cd8f74d0fd818c04b37acce7abc17e13"
+    },
+    {
+      addressString: "0x7aedbd9df6223a5a0bd8d0e48c88c90c07753bc4",
+      checksumAddressString: "0x7AEdbD9dF6223a5A0BD8D0E48c88c90c07753Bc4",
+      privateKeyString:
+        "d91dad0c5be2216cfe1c04454d90fc0da70b2fbc86588e123a9183b5868959b6"
+    },
+    {
+      addressString: "0x3d6dcdf58a87aca5632637fa38b5f748b9fe29ce",
+      checksumAddressString: "0x3D6dCdf58a87ACa5632637Fa38b5F748b9fe29CE",
+      privateKeyString:
+        "0bc20e7f6e6fd3ee7150307d1dbefbde2be4ca5c5884ae37d4c7cafd58d807e5"
+    },
+    {
+      addressString: "0x6d82c4ce786e3762b5e19d5d25407cdb92506b57",
+      checksumAddressString: "0x6D82C4cE786e3762b5e19D5D25407CDB92506b57",
+      privateKeyString:
+        "2da03697ed677166eb5c2a531ebece5d83f8008082540196306f3c668e2f96d9"
+    },
+    {
+      addressString: "0x477f778a1a8ad42d249afa528ab56cc42e789a2e",
+      checksumAddressString: "0x477F778A1A8aD42d249afA528AB56CC42E789a2E",
+      privateKeyString:
+        "52b145b991b37dff262dab26a215cac68e2214cc7dacfae08dde9a5d3be6e0c9"
+    },
+    {
+      addressString: "0x7dd38b785c471bb8ae454dc0a52c4b2d2f115aa0",
+      checksumAddressString: "0x7dd38b785C471Bb8ae454dc0A52c4b2d2f115Aa0",
+      privateKeyString:
+        "c624d601914060e7b033234baf6231454334a0317ba7615ebbd9fd9b718b1471"
+    },
+    {
+      addressString: "0xf79ea0c56dc60705e8d4a3941ff1df9c84830318",
+      checksumAddressString: "0xF79EA0c56Dc60705e8D4A3941FF1Df9C84830318",
+      privateKeyString:
+        "43d299c0bc57355f3f543a5cfef15eb985e9a2691d40149611762ba1810a124c"
+    },
+    {
+      addressString: "0xdbc49bb1a5e19acd5a925e0f877426c80ea28f3e",
+      checksumAddressString: "0xDBC49bB1a5E19Acd5A925e0F877426c80ea28F3e",
+      privateKeyString:
+        "32129500033729b6c159f343314b5e83249faebe7c923255bacbe87e9eb8f82d"
+    }
+  ];
+
+  EXTRA_CHEAT.forEach(o => {
+    CHEAT[o.addressString] = "0x" + o.privateKeyString;
+  });
+})(PRIVATE_CHEAT);
+
 window.onload = async function() {
   const accessToken = window.localStorage.getItem("USER_ACCESS_TOKEN");
   const userId = window.localStorage.getItem("USER_ID");
@@ -317,7 +380,19 @@ async function getVoucherData(accessToken) {
     "0x4dc73491a7cf7f1742cbe3dd90a57b74edf09b65":
       "0x4923d0ef0adec78500f39c934524e88d8354b332",
     "0xa302e50e9959fca3c576178e98957365ad0d0890":
-      "0x4923d0ef0adec78500f39c934524e88d8354b332"
+      "0x4923d0ef0adec78500f39c934524e88d8354b332",
+    "0x3d6dcdf58a87aca5632637fa38b5f748b9fe29ce":
+      "0x09b6beffdbade9530a3fd0f403a7a9028bc6312e",
+    "0x6d82c4ce786e3762b5e19d5d25407cdb92506b57":
+      "0x09b6beffdbade9530a3fd0f403a7a9028bc6312e",
+    "0x477f778a1a8ad42d249afa528ab56cc42e789a2e":
+      "0x14e529e2a331e89b79eb0692732075857145db7b",
+    "0x7dd38b785c471bb8ae454dc0a52c4b2d2f115aa0":
+      "0x14e529e2a331e89b79eb0692732075857145db7b",
+    "0xf79ea0c56dc60705e8d4a3941ff1df9c84830318":
+      "0x7aedbd9df6223a5a0bd8d0e48c88c90c07753bc4",
+    "0xdbc49bb1a5e19acd5a925e0f877426c80ea28f3e":
+      "0x7aedbd9df6223a5a0bd8d0e48c88c90c07753bc4"
   };
 
   const query = `
