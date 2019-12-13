@@ -141,9 +141,15 @@ window.onload = async function() {
     if (ACCESS_TOKEN) {
       const privateKey = PRIVATE_CHEAT[KEYFILE.address];
       const requestId = _uuid();
-      console.log(this.value, requestId, privateKey);
-      const signature = await signMessage(this.value, requestId, privateKey);
-      $("#resourceUrlInput").val(`${this.value}?ds=${signature}`);
+      console.log($("#selectResourceUrl").val(), requestId, privateKey);
+      const signature = await signMessage(
+        $("#selectResourceUrl").val(),
+        requestId,
+        privateKey
+      );
+      $("#resourceUrlInput").val(
+        `${$("#selectResourceUrl").val()}?ds=${signature}`
+      );
       $("#requestIdArea").text(`request Id: ${requestId}`);
     } else {
       $("#resourceUrlInput").val("");
